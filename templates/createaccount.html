@@ -4,6 +4,11 @@
 
 {% block body %}
 
-<h1>Create Account</h1>
-
+<h1>Create Your Account</h1>
+<form id="createaccount" method="POST">
+    <input type="hidden" name="email" value = "{{email}}" >
+    <input type="hidden" name="password" value = "{{password}}"> 
+    <input type="text" name="zip_code" placeholder="Enter Your Zip Code"> <br><br>
+    <button id="signup" class="signUpText" formaction="/homepage">Enter</button>
+  </form>
 {% endblock %}

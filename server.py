@@ -5,6 +5,7 @@ from model import connect_to_db
 import crud
 from jinja2 import StrictUndefined
 
+
 app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
@@ -15,34 +16,46 @@ def login():
 
     return render_template ('login.html')
 
-#thinking about the flow of logging in, checking if an account, etc.
-@app.route('/createaccount', methods=['GET', 'POST'])
+@app.route('/createaccount', methods=['POST'])
 def createaccount():
     """View login page"""
 
-    email = request.args.get("email")
-    password = request.args.get("password")
-    print(email)
+    email = request.form.get('email')
+    password = request.form.get('password')
 
-    user = crud.create_user(email, password, zip_code = "Null", phone_number = "Null")
+    user = crud.create_user(email, password, zip_code = "null", phone_number = "null")
     session["user_email"] = user.email
 
-    return render_template ('createaccount.html')
+    return render_template ('createaccount.html',
+                            email = email,
+                            password = password)
 
-@app.route('/homepage', methods=['GET', 'POST'])
+@app.route('/homepage', methods=['POST'])
 def homepage():
-    
-    email = request.args.get("email")
-    password = request.args.get("password")
+    # import pdb; pdb.set_trace()
+    email = request.form.get('email')
+    password = request.form.get('password')
+    zip_code = request.form.get('zip_code')
 
     user = crud.get_user_by_email(email)
 
-    if user is None or user.password != password:
-        flash("Incorrect email or password")
+    if user.zip_code == "null":
+        crud.update_zip_code(email,zip_code)
+        return render_template ('homepage.html')
+    
+    if user is None:
+        flash("No email found")
+        return redirect ("/")
+        
+    elif user.password != password:
+        flash("Incorrect password")
         return redirect ("/")
     else:
         session["user_email"] = user.email
         return render_template ('homepage.html')
+
+
+
 
 
 

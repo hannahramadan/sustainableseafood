@@ -64,10 +64,32 @@ def get_user_by_email(email):
     return User.query.filter(User.email == email).first()
 
 
+def update_zip_code(email, zip_code):
+    """Update user zip_code"""
 
+    # User.query.filter(User.email = email).update(User.zip_code = zip_code)
 
+    # User.query.filter(User.email == email).first().update(User[user.zip_code, zip_code])
     
-#transactions grouping sequence of things happening to db line 36
+    user = User.query.filter(User.email == email).first()
+    user.zip_code = zip_code
+    db.session.add(user)
+    db.session.commit()
+
+    return user
+
+
+
+
+
+
+
+
+
+
+
+
+
 # def create_rating(user, movie, score):
 #     """Create and return a new rating."""
 
