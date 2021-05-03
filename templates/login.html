@@ -8,37 +8,10 @@
 
 
 <form id="email_password" method="POST">
-  <input type="text" name="email" placeholder="email"> <br><br>
-  <input type="password" name="password" placeholder="password"> <br><br>
+  <input type="email" name="email" placeholder="email" required> <br><br>
+  <input type="password" name="password" placeholder="password" required> <br><br>
   <button id="signup" class="signUpText" formaction="/createaccount">Create New Account</button>
   <button id="login" class="LoginText" formaction="/homepage" >Log In</button>
-
-  <!-- <script>
-    "use strict";
-    const button1 = $('#signup');
-    button1.on('click', () => {
-      evt.preventDefault();
-      if (button1.html() === "Log In"){
-        button1.html('Log Out');
-      }
-      else {
-        button1.html('Log In');
-      }
-    });    
-  </script>
-  <script>
-        "use strict";
-        const button2 = $('#login');
-        button2.on('click', () => {
-          evt.preventDefault();
-          if (button2.html() === "Log In"){
-            button2.html('Log Out');
-          }
-          else {
-            button2.html('Log In');
-          }
-        });    
-  </script> -->
 </form>
 
 {% endblock %}

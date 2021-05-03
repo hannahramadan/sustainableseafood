@@ -1,20 +1,19 @@
 """Server for fish app."""
 
-from flask import (Flask, render_template, request, flash, session, redirect)
+from flask import (Flask, render_template, request, flash, session, redirect, jsonify)
 from model import connect_to_db
 import crud
 from jinja2 import StrictUndefined
-
+from model import Fish
 
 app = Flask(__name__)
 app.secret_key = "dev"
-app.jinja_env.undefined = StrictUndefined
 
 @app.route('/')
 def login():
     """View login page"""
-
     return render_template ('login.html')
+
 
 @app.route('/createaccount', methods=['POST'])
 def createaccount():
@@ -23,26 +22,27 @@ def createaccount():
     email = request.form.get('email')
     password = request.form.get('password')
 
-    user = crud.create_user(email, password, zip_code = "null", phone_number = "null")
-    session["user_email"] = user.email
+    email_in_use = crud.get_user_by_email(email)
 
-    return render_template ('createaccount.html',
-                            email = email,
-                            password = password)
+    if email_in_use == None:
+        user = crud.create_user(email, password, zip_code = "null", phone_number = "null")
+        session["user_email"] = user.email
+        return render_template ('createaccount.html',
+                                email = email,
+                                password = password)
+    
+    else:
+        flash("Email already in use")
+        return redirect ("/")
 
 @app.route('/homepage', methods=['POST'])
 def homepage():
-    # import pdb; pdb.set_trace()
     email = request.form.get('email')
     password = request.form.get('password')
     zip_code = request.form.get('zip_code')
 
     user = crud.get_user_by_email(email)
 
-    if user.zip_code == "null":
-        crud.update_zip_code(email,zip_code)
-        return render_template ('homepage.html')
-    
     if user is None:
         flash("No email found")
         return redirect ("/")
@@ -50,21 +50,29 @@ def homepage():
     elif user.password != password:
         flash("Incorrect password")
         return redirect ("/")
+        
     else:
         session["user_email"] = user.email
         return render_template ('homepage.html')
 
+    if user.zip_code == "null":
+        crud.update_zip_code(email,zip_code)
+        return render_template ('homepage.html')
+
+##########################################################################
+
+@app.route('/index')
+def index():
+    return render_template("index.html")
 
 
-
-
-
-
-
-
-
-
-
+@app.route("/livesearch", methods=["POST", "GET"])
+def livesearch():
+    searchbox = request.form.get("text")
+    cursor = mysql.connection.cursor()
+    query = "select fish from fishes where fish LIKE '{}%' order by fish".format(searchbox)
+    result = cursor.fetchall()
+    return jsonify(result)
 
 
 
