@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Sustainable Seafood{% endblock %}
+
+{% block body %}
+
+<h1>{{species_name}}</h1>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 fish-summary">
+        <div class="well well-lg">
+            <p>Score: {{score}}</p>
+            <p>Region: {{species_region}}</p>
+            <p>Population: {{population}}</p>
+            <p>Habitat impacts: {{habitat_impacts}}</p>
+            <p>Population Status: {{population_status}}</p>
+        </div>
+    </div>
+
+{% endblock %}

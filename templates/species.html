@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Sustainable Seafood{% endblock %}
+
+{% block body %}
+
+<h1>All Species</h1>
+
+    {% for fish in fishes %}
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 fish-summary">
+        <div class="well well-lg">
+            <h3><a href="/species/{{ fish.fish_id }}">{{fish.name}}</a></h3>
+            <a href="/species/{{ fish.fish_id }}"><img src="{{ fish.img_url }}" class="img-circle"></a>
+            <div class="score">Sustainability Score: <b>{{fish.score}}</b></div>
+        </div>
+    </div>
+    {% endfor %}
+
+{% endblock %}

@@ -15,14 +15,15 @@ os.system('dropdb sustainablefish')
 os.system('createdb sustainablefish')
 
 model.connect_to_db(server.app) 
-model.db.create_all() #creating all tabels 
+model.db.create_all() 
 
-with open('fish.json') as f:  #opening json file 
-    fish_data = json.loads(f.read()) #adding the whole thing to fish data - loading reader
+with open('fish.json') as f:  
+    fish_data = json.loads(f.read()) 
 
-# Create fish, store them in list. Used to create fake likes later. 
+ 
 fishes_in_db = []
 for fish in fish_data:
+    """Create fish and add to database"""
     name, url_slug, img_url, region, score = (fish["Species Name"],
                                         fish['Path'],
                                         fish["Species Illustration Photo"]["src"],
@@ -36,17 +37,18 @@ for fish in fish_data:
                                 score)
     fishes_in_db.append(db_fish)
 
-#crud.create_fish putting it in the db
 
-for n in range(25): #create 25 fake users
+for n in range(2): 
+    """Create fake users"""
     email = f'user{n}@test.com' 
     password = 'test'
-    zip_code = f'{n}'
-    phone_number = f'{n}'
+    zip_code = randint(5, 99999)
+    phone_number = randint(10, 9999999999)
 
     user = crud.create_user(email, password, zip_code, phone_number)
 
-for n in range(100): #create 100 fake favorites
+for n in range(20):
+    """Create fake user favorites"""
     user = choice(User.query.all())
     user_id = user.user_id
     fish = choice(Fish.query.all())

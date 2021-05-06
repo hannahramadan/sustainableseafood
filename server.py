@@ -1,6 +1,7 @@
 """Server for fish app."""
 
 from flask import (Flask, render_template, request, flash, session, redirect, jsonify)
+import requests
 from model import connect_to_db
 import crud
 from jinja2 import StrictUndefined
@@ -9,8 +10,9 @@ from model import Fish
 app = Flask(__name__)
 app.secret_key = "dev"
 
+
 @app.route('/')
-def login():
+def base():
     """View login page"""
     return render_template ('login.html')
 
@@ -25,7 +27,7 @@ def createaccount():
     email_in_use = crud.get_user_by_email(email)
 
     if email_in_use == None:
-        user = crud.create_user(email, password, zip_code = "null", phone_number = "null")
+        user = crud.create_user(email, password, zip_code = 99999, phone_number = "null")
         session["user_email"] = user.email
         return render_template ('createaccount.html',
                                 email = email,
@@ -35,29 +37,84 @@ def createaccount():
         flash("Email already in use")
         return redirect ("/")
 
-@app.route('/homepage', methods=['POST'])
-def homepage():
+@app.route('/login', methods=['POST'])
+def login():
     email = request.form.get('email')
     password = request.form.get('password')
     zip_code = request.form.get('zip_code')
+    print(zip_code)
+    print("**********************")
 
     user = crud.get_user_by_email(email)
 
     if user is None:
         flash("No email found")
         return redirect ("/")
-        
+    
     elif user.password != password:
         flash("Incorrect password")
         return redirect ("/")
-        
+    
+    elif user.zip_code == 99999:
+        crud.update_zip_code(email,zip_code)
+        return redirect ('/homepage')
+            
     else:
         session["user_email"] = user.email
-        return render_template ('homepage.html')
+        return redirect ('/homepage')
 
-    if user.zip_code == "null":
-        crud.update_zip_code(email,zip_code)
-        return render_template ('homepage.html')
+@app.route('/homepage')
+def homepage():
+    return render_template ('homepage.html')
+
+
+@app.route('/species')
+def all_fish():
+    fishes = crud.get_all_fish()
+
+    return render_template("species.html", fishes=fishes)
+
+@app.route('/species/<fish_id>')
+def get_species_details(fish_id):
+    """View the details of a fish."""
+
+    fish = crud.get_fish_by_id(fish_id)
+    name = fish.name
+
+    url = f'https://www.fishwatch.gov/api/species/{name}'
+
+    response = requests.get(url)
+    species = response.json()
+
+    species_name = species[0]["Species Name"]
+    species_region = species[0]["NOAA Fisheries Region"]
+    population_status = species[0]["Population Status"]
+    population = species[0]["Population"]
+    habitat_impacts = species[0]["Habitat Impacts"]
+
+    return render_template('species_details.html',
+                           species_name=species_name,
+                           species_region=species_region,
+                           population_status=population_status,
+                           population=population,
+                           habitat_impacts=habitat_impacts)
+
+@app.route('/profile')
+def show_user():
+    """Show particular user's profile page."""
+    user_email = session["user_email"]
+    user = crud.get_user_by_email(user_email)
+    favorites = crud.get_favorite_fish_by_user(user.user_id)
+
+    return render_template('profile.html', user = user, favorites=favorites)
+
+@app.route('/logout')
+def log_out():
+    """Log out."""
+    session.clear()
+
+    return redirect('/')
+
 
 ##########################################################################
 

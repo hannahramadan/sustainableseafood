@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Sustainable Fish{% endblock %}
+
+{% block body %}
+<h1>Index</h1>
+
+<input type="text" id="livebox">
+<script>
+    $(document).ready(function(){
+        $("#livebox").on("input", function(evt){
+            liveboxtext = $("#livebox").val();
+            $.ajax({
+                method:"post",
+                url:"/livesearch", 
+                data:{text:liveboxtext}, 
+                success:function(res){
+                    console.log(res);
+                }
+            })
+        });
+    })
+</script>
+
+
+{% endblock %}

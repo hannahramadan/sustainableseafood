@@ -12,7 +12,7 @@ class User(db.Model):
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     email = db.Column(db.String(50), nullable=False, unique = True)
     password = db.Column(db.String(50), nullable=False)
-    zip_code = db.Column(db.String(50), nullable=True)
+    zip_code = db.Column(db.Integer, nullable=True)
     phone_number = db.Column(db.String(50), nullable=True)
     
     def __repr__(self):
@@ -48,7 +48,7 @@ class Fish(db.Model):
     name = db.Column(db.String(100), unique = True, nullable=False)
     url_slug = db.Column(db.String(50), nullable=False)
     img_url = db.Column(db.String(200), nullable=False)
-    region = db.Column(db.String(200), nullable=False)
+    region = db.Column(db.String(200),nullable=False)
     score = db.Column(db.String(1), nullable=False)
 
     favorite = db.relationship("Favorite")

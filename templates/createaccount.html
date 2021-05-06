@@ -1,6 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'logged_out.html' %}
 
-{% block title %}Sustainable Fish{% endblock %}
+{% block title %}Sustainable Seafood{% endblock %}
 
 {% block body %}
 
@@ -8,7 +8,7 @@
 <form id="createaccount" method="POST">
     <input type="hidden" name="email" value = "{{email}}" >
     <input type="hidden" name="password" value = "{{password}}"> 
-    <input type="text" name="zip_code" placeholder="Enter Your Zip Code" required> <br><br>
-    <button id="signup" class="signUpText" formaction="/homepage">Enter</button>
+    <input type="text" name="zip_code" pattern="(\d{5})" placeholder="Enter Zip Code" oninvalid="setCustomValidity('Please enter a valid zip code.')" required> <br><br>
+    <button id="signup" class="signUpText" formaction="/login">Enter</button>
   </form>
 {% endblock %}

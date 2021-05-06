@@ -1,0 +1,12 @@
+/* all-fish */
+
+div.fish-summary img {
+    width: 15em;
+}
+
+div.fish-score .score {
+    margin: 0.5em 0;
+    font-size: 150%;
+    font-weight: bold;
+}
+

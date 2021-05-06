@@ -85,18 +85,6 @@ def get_favorite_fish_by_user(user_id):
         fish_objects.append(result)
     return fish_objects
 
-######################################
-
-
-# def get_movie_by_id(movie_id):
-#     return Movie.query.get(movie_id)
-
-
-# def get_user_by_id(user_id):
-#     """Return a user."""
-
-#     return User.query.get(user_id)
-
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)

@@ -6,4 +6,26 @@
 
 <h1>Homepage</h1>
 
+<form>
+    <input id="species" type="text" placeholder="Search species">
+    <fieldset>
+        <legend>Refine by: </legend>
+        <ul>
+            <li color-rating="green">
+                <input id="best choice" type="checkbox" value="1">
+                <label>Best Choice</label></li>
+            <li color-rating="yellow">
+                <input id="good alternative" type="checkbox" value="2">
+                <label>Good Alternative</label>
+            </li>
+            <li color-rating="red">
+                <input id="avoid" type="checkbox" value="3">
+                <label>Avoid</label>
+            </li>
+        </ul>
+    </fieldset>
+
+</form>
+
+
 {% endblock %}
