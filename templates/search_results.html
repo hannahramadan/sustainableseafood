@@ -1,24 +1,25 @@
 {% extends 'base.html' %}
 
-{% block title %}Sustainable Seafood{% endblock %}
+{% block title %}Sustainable Fish{% endblock %}
 
 {% block body %}
 
-<p><b>Email: {{user.email}}</b></p>
-<p><b>Your zip code: {{user.zip_code}}</b></p>
+<h1>Search Results</h1>
 
-<h4>Your Watchlist</h4>
 <div class="row">
-    {% for fish in favorites %}
+    {% for fish in fishes %}
     <div class="card" style="width: 18rem;">
         <img src="{{ fish.img_url }}" class="card-img-top card-img" alt="{{fish.name}}">
         <div class="card-body">
             <h5 class="card-title"><a href="/species/{{ fish.fish_id }}">{{fish.name}}</a></h5>
             <h6 class="card-subtitle mb-2 text-muted">Sustainability Rating: <b>{{fish.score}}</b></h6>
+            <h6 class="card-subtitle mb-2 text-muted">Region: {{fish.region}}</h6>
+            <form id="favorite" action='/favorite_fish/{{fish.fish_id}}' method='POST' >
+                <button type="submit" class="card-link">Add to watchlist</button>
+            </form>
         </div>
-    </div>
-    {% endfor %}
-</div>
+      </div>
+      {% endfor %}
+  </div>
 
 {% endblock %}
-

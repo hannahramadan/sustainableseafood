@@ -6,14 +6,33 @@
 
 <h1>All Species</h1>
 
+<div class="row">
     {% for fish in fishes %}
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 fish-summary">
-        <div class="well well-lg">
-            <h3><a href="/species/{{ fish.fish_id }}">{{fish.name}}</a></h3>
-            <a href="/species/{{ fish.fish_id }}"><img src="{{ fish.img_url }}" class="img-circle"></a>
-            <div class="score">Sustainability Score: <b>{{fish.score}}</b></div>
+    <div class="card" style="width: 18rem;">
+        <img src="{{ fish.img_url }}" class="card-img-top card-img" alt="{{fish.name}}">
+        <div class="card-body">
+            <h5 class="card-title"><a href="/species/{{ fish.fish_id }}">{{fish.name}}</a></h5>
+            <h6 class="card-subtitle mb-2 text-muted">Sustainability Rating: <b>{{fish.score}}</b></h6>
+            <h6 class="card-subtitle mb-2 text-muted">Region: {{fish.region}}</h6>            
+            <form id="favorite" action='/favorite_fish/{{fish.fish_id}}' method='POST' >
+                <button type="submit" class="card-link">Add to watchlist</button>
+            </form>
         </div>
-    </div>
-    {% endfor %}
+      </div>
+      {% endfor %}
+  </div>
 
 {% endblock %}
+
+<!-- <script> 
+    "use strict";
+    let favoritebutton = document.querySelector("#favorite")
+    favoritebutton.addEventListener("click", () => {      
+      if (favoritebutton.textContent == "Add to watchlist"){
+          favoritebutton.textContent ='Remove to watchlist';
+      }
+      else {
+          favoritebutton.textContent ='Add to watchlist';
+      }
+    });
+</script> -->

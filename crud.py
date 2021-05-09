@@ -36,6 +36,21 @@ def create_favorite(user_id, fish_id):
     db.session.commit()
     return favorite
 
+def delete_favorite(user_id, fish_id):
+    """Delete a favorite."""
+    favorite = Favorite.query.filter((Favorite.user_id == user_id)&(Favorite.fish_id==fish_id)).one()
+
+    db.session.delete(favorite)
+    db.session.commit()
+    return favorite
+
+def does_favorite_exist(user_id, fish_id):
+    """Find a favorite."""
+    if Favorite.query.filter((Favorite.user_id == user_id)&(Favorite.fish_id==fish_id)).count() > 0:
+        return True
+    else:
+        return False
+
 def create_alias(user_id, fish_id):
     """Create and return a new favorite."""
     favorite = Favorite(user_id = user_id, 
@@ -69,9 +84,77 @@ def get_fish_by_id(fish_id):
     """Return a fish."""
     return Fish.query.get(fish_id)
 
+def get_fish_name(fish_id):
+    """Return a fish."""
+    fish = Fish.query.get(fish_id)
+    return fish.name
+
+def get_fish_score(fish_id):
+    """Return a fish."""
+    fish = Fish.query.get(fish_id)
+    score = fish.score
+    return score
+
 def get_fish_by_rating(score):
     """Return fish objects by rating"""
     return Fish.query.filter(Fish.score == score).all()
+
+def get_fish_by_region(region):
+    """Return fish objects by region"""
+    
+    fishes = get_all_fish()
+    final=[]
+    for fish in fishes:
+        regions = fish.region
+        divided = regions.split(", ")
+        for item in divided:
+            if item == region:
+                final.append(fish)
+
+    return final
+
+def get_fish_by_rating_and_region(score, region):
+    """Return fish objects by region"""
+
+    final = []
+
+    scores = get_fish_by_rating(score)
+    regions = get_fish_by_region(region)
+
+    for item in scores:
+        if item in regions:
+            final.append(item)
+
+    return final
+
+def get_all_by_rating_and_region(scores, regions):
+    """Return fish objects by region"""
+    
+    fishes = get_all_fish()
+    final=[]
+    
+    if scores == []:
+        scores = ["1", "2", "3"]
+    #if no score is selecetd, all scores are okay
+
+    if regions == []:
+    #user didn't select any regions, so all regions are okay
+        for fish in fishes:
+            if fish.score in scores:
+                final.append(fish)
+    else: #some regions were selected
+        for fish in fishes:
+            regions_of_fish = fish.region 
+            divided = regions_of_fish.split(", ") #some fish have multiple regions, only one region satisfies search
+            for item in divided: #looping so that I can check each region and the given score(s)
+                if item in regions and fish.score in scores:
+                    final.append(fish)
+                    break #out of 2nd for loop
+
+    return final
+
+def fish_likes(fish_id):
+    return Favorite.query.filter(Favorite.fish_id == fish_id).count()
 
 def get_favorite_fish_by_user(user_id):
     """Get fish objects liked by a user"""
@@ -84,6 +167,42 @@ def get_favorite_fish_by_user(user_id):
         result = get_fish_by_id(fish)
         fish_objects.append(result)
     return fish_objects
+
+
+############################################
+
+def get_all_fishes_by_rating(scores):
+    fishes = get_all_fish()
+    final=[]
+    
+    if scores == []:
+        return fishes
+    #if no score is selecetd, all scores are okay
+
+    for fish in fishes:
+        if fish.score in scores:
+            final.append(fish)
+
+    return final
+
+def get_all_fishes_by_region(regions):
+    fishes = get_all_fish()
+    final=[]
+    
+    if regions == []:
+        return fishes
+
+    for fish in fishes:
+            regions_of_fish = fish.region 
+            divided = regions_of_fish.split(", ") #some fish have multiple regions, only one region satisfies search
+            for item in divided: #looping so that I can check each region and the given score(s)
+                if item in regions:
+                    final.append(fish)
+                    break #out of 2nd for loop
+
+    return final
+
+
 
 if __name__ == '__main__':
     from server import app

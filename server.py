@@ -42,8 +42,6 @@ def login():
     email = request.form.get('email')
     password = request.form.get('password')
     zip_code = request.form.get('zip_code')
-    print(zip_code)
-    print("**********************")
 
     user = crud.get_user_by_email(email)
 
@@ -57,16 +55,15 @@ def login():
     
     elif user.zip_code == 99999:
         crud.update_zip_code(email,zip_code)
-        return redirect ('/homepage')
+        return redirect ('/search')
             
     else:
         session["user_email"] = user.email
-        return redirect ('/homepage')
+        return redirect ('/search')
 
-@app.route('/homepage')
-def homepage():
-    return render_template ('homepage.html')
-
+@app.route('/search')
+def search():
+    return render_template ('search.html')
 
 @app.route('/species')
 def all_fish():
@@ -79,7 +76,9 @@ def get_species_details(fish_id):
     """View the details of a fish."""
 
     fish = crud.get_fish_by_id(fish_id)
+    img = fish.img_url
     name = fish.name
+    likes = crud.fish_likes(fish_id)
 
     url = f'https://www.fishwatch.gov/api/species/{name}'
 
@@ -91,13 +90,18 @@ def get_species_details(fish_id):
     population_status = species[0]["Population Status"]
     population = species[0]["Population"]
     habitat_impacts = species[0]["Habitat Impacts"]
+    score = crud.get_fish_score(fish_id)
 
     return render_template('species_details.html',
+                           fish=fish,
                            species_name=species_name,
                            species_region=species_region,
                            population_status=population_status,
                            population=population,
-                           habitat_impacts=habitat_impacts)
+                           habitat_impacts=habitat_impacts, 
+                           likes=likes,
+                           score=score,
+                           img=img)
 
 @app.route('/profile')
 def show_user():
@@ -115,8 +119,50 @@ def log_out():
 
     return redirect('/')
 
+@app.route('/favorite_fish/<fish_id>', methods=['POST'])
+def favorite(fish_id):
+    """Favorite or remove a fish."""
 
-##########################################################################
+    user_email = session["user_email"]
+    user = crud.get_user_by_email(user_email)
+    user_id = user.user_id
+
+    if crud.does_favorite_exist(user_id, fish_id) == True:
+        crud.delete_favorite(user_id, fish_id)
+    else:
+        crud.create_favorite(user_id, fish_id)
+
+    return redirect ('/species')
+
+@app.route('/search_results')
+def search_fish():
+    """Seach results."""
+    ratings = request.args.getlist('rating')
+    regions = request.args.getlist('region')
+
+    fishes_with_correct_rating = crud.get_all_fishes_by_rating(ratings)
+    fishes_with_correct_region = crud.get_all_fishes_by_region(regions)
+
+    fishes = []
+
+    for fish in fishes_with_correct_rating:
+        if fish in fishes_with_correct_region:
+            fishes.append(fish)
+
+    return render_template ('/search_results.html',
+                            fishes=fishes)
+
+#################Option using one function#############################
+    # ratings = request.args.getlist('rating')
+    # regions = request.args.getlist('region')
+
+    # fishes = crud.get_all_by_rating_and_region(ratings, regions)
+    
+    # # return render_template ('/search_results')
+    # return render_template ('/search_results.html',
+    #                 fishes=fishes)
+
+########################################################################
 
 @app.route('/index')
 def index():
