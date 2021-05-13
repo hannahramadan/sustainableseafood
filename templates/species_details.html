@@ -14,7 +14,7 @@
             <p class="card-text">Region: {{species_region}}</p>
             <p class="card-text">Population: {{population}}</p>
             <p class="card-text">Habitat impacts: {{habitat_impacts}}</p>
-            <p class="card-text">Population Status: {{population_status}}/p>
+            <p class="card-text">Population Status: {{population_status|safe}}/p>
             <form id="favorite" formaction='/favorite_fish/{{fish.fish_id}}' method='POST' >
                 <button type="submit" class="card-link">Add to watchlist</button>
             </form>

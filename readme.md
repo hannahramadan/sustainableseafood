@@ -31,16 +31,17 @@ Farmers market: by zip code & those that sell fish
 #### MVP
 
 - Users can create an account and login
+- display fish name, image, sustainability status
+- Users can save fish to their favorites
 - Users can search by fish name and region 
 --- autocomplete dropdown
 ----- ask to select region as searchable
-- Users can save fish to their favorites
-- display fish name, image, sustainability status
 
 
 #### 2.0
 
 - Users can see nearby farmer's markets that sell fish
+- React: shuffle cards, change forms. make a separate page for react to play with 
 --- sort by most popular, what cool data can we pull, trends page
 -----map bubbles 
 - Pretty and interactive UI
@@ -50,6 +51,11 @@ Farmers market: by zip code & those that sell fish
 #### 3.0
 
 - Users can text themselves their saved fish list
+- Clean up HTML tags in API response
+- Cloudflare/ download, store, resize images
+----check if image is in static folder, if not, download to static. When image is served, check if in static, if so, serve that version. 
+- jQuery loading at once
+-- loading spinner
 
 
 ### Notes

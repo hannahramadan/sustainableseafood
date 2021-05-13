@@ -9,7 +9,7 @@
 <form action='/search_results'>
     <input id="species" type="text" placeholder="Search species">
     <fieldset>
-        <legend>Refine by rating: </legend>
+        <legend>Explore by rating: </legend>
         <ul>
             <li color-rating="green">
                 <input id="best choice" type="checkbox" name="rating" value="1">
@@ -25,7 +25,7 @@
         </ul>
     </fieldset>
     <fieldset>
-        <legend>Refine by region: </legend>
+        <legend>Explore by region: </legend>
         <ul>
             <li>
                 <input id="Greater Atlantic" type="checkbox" name="region" value="Greater Atlantic">
@@ -50,6 +50,23 @@
     </fieldset>
     <button type="submit">Go Fish</button>
 </form>
+
+<!-- <script>
+function search_fish() {
+    let input = document.getElementById('species').value
+    input=input.toLowerCase();
+    let x = document.getElementsByClassName('animals');
+      
+    for (i = 0; i < x.length; i++) { 
+        if (!x[i].innerHTML.toLowerCase().includes(input)) {
+            x[i].style.display="none";
+        }
+        else {
+            x[i].style.display="list-item";                 
+        }
+    }
+}
+</script> -->
 
 
 

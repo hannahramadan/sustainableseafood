@@ -14,10 +14,26 @@
             <h5 class="card-title"><a href="/species/{{ fish.fish_id }}">{{fish.name}}</a></h5>
             <h6 class="card-subtitle mb-2 text-muted">Sustainability Rating: <b>{{fish.score}}</b></h6>
             <h6 class="card-subtitle mb-2 text-muted">Region: {{fish.region}}</h6>
-            <form id="favorite" action='/favorite_fish/{{fish.fish_id}}' method='POST' >
-                <button type="submit" class="card-link">Add to watchlist</button>
-            </form>
+            {% if fish in favorites %}
+                <form id="favorite" action='/favorite_fish/{{fish.fish_id}}' method='POST' >
+                    <button type="button" id='fave{{fish.fish_id}}' name = "{{fish.fish_id}}" value = "{{fish.fish_id}}" class="card-link">Remove from watchlist</button>
+                </form>       
+                {% else %}          
+                    <form id="favorite" action='/favorite_fish/{{fish.fish_id}}' method='POST' >
+                        <button type="button" id='fave{{fish.fish_id}}' name = "{{fish.fish_id}}" value = "{{fish.fish_id}}" class="card-link">Add to watchlist</button>
+                    </form>   
+                {% endif %} 
         </div>
+        <script>
+            $(`#fave{{fish.fish_id}}`).on('click', (evt) => {
+                evt.preventDefault();
+                fish_id = $(`#fave{{fish.fish_id}}`).val()
+                $.post("favorite_fish/{{fish.fish_id}}", fish_id, (res) =>{
+                    $(`#fave{{fish.fish_id}}`).html(res)
+                    
+                });
+            });
+        </script>
       </div>
       {% endfor %}
   </div>
