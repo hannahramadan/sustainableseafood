@@ -63,7 +63,8 @@ def login():
 
 @app.route('/search')
 def search():
-    return render_template ('search.html')
+    fishes = crud.get_all_fish()
+    return render_template ('search.html', fishes=fishes)
 
 @app.route('/species')
 def all_fish():

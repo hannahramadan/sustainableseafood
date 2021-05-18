@@ -15,6 +15,7 @@
     src="https://code.jquery.com/jquery-3.4.1.js"
     integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>
+    <script type="text/javascript" src="static/farmers_api.js"></script>
   </head>
 
   <body>
@@ -30,8 +31,8 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item"><a class="nav-link active" aria-current="page" href="/search">Search</a></li>
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/species">All Species</a></li>
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Explore trends</a></li>
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/species">Explore Species</a></li>
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Trends</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="nav-item"><a class="nav-link active" aria-current="page" href="/profile">Profile</a></li>
@@ -53,7 +54,7 @@
     {% endblock %}
   </div>
   <div>
-    <footer class="footer static-bottom">
+    <footer class= "navbar navbar-light fixed-bottom" style="background-color: #ffffff;">
       <p>© sustainableseafood 2021</p>
     </footer>
   </div>

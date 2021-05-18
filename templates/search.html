@@ -4,52 +4,39 @@
 
 {% block body %}
 
-<h2>Search Seafood</h2>
+<h2>Search Species</h2>
 
-<form action='/search_results'>
-    <input id="species" type="text" placeholder="Search species">
-    <fieldset>
-        <legend>Explore by rating: </legend>
-        <ul>
-            <li color-rating="green">
-                <input id="best choice" type="checkbox" name="rating" value="1">
-                <label>Best Choice (1)</label></li>
-            <li color-rating="yellow">
-                <input id="okay alternative" type="checkbox" name="rating" value="2">
-                <label>Okay Alternative (2)</label>
-            </li>
-            <li color-rating="red">
-                <input id="avoid" type="checkbox" name="rating" value="3">
-                <label>Avoid (3)</label>
-            </li>
-        </ul>
-    </fieldset>
-    <fieldset>
-        <legend>Explore by region: </legend>
-        <ul>
-            <li>
-                <input id="Greater Atlantic" type="checkbox" name="region" value="Greater Atlantic">
-                <label>Greater Atlantic</label></li>
-            <li>
-                <input id="West Coast" type="checkbox" name="region" value="West Coast">
-                <label>West Coast</label>
-            </li>
-            <li>
-                <input id="Alaska" type="checkbox" name="region" value="Alaska">
-                <label>Alaska</label>
-            </li>
-            <li>
-                <input id="Pacific Islands" type="checkbox" name="region" value="Pacific Islands">
-                <label>Pacific Islands</label>
-            </li>
-            <li>
-                <input id="Southeast" type="checkbox" name="region" value="Southeast">
-                <label>Southeast</label>
-            </li>
-        </ul>
-    </fieldset>
-    <button type="submit">Go Fish</button>
+<form>
+    <input id="myInput" type="text" onkeyup="mySearchFunction()" placeholder="Search species">
 </form>
+
+<ul id=fishSearch>
+    {% for fish in fishes %}
+    <li><a href="/species/{{ fish.fish_id }}">{{fish.name}}</a></li>
+    {% endfor %}
+</ul>
+
+
+
+<script>
+function mySearchFunction() {
+    let input = document.getElementById("myInput"); //get what is being typed
+    let filter = input.value.toLowerCase(); //make it lower case
+    let ul = document.getElementById("fishSearch"); //get the list of the fishes to look through
+    let li = ul.getElementsByTagName("li");  //get each fish list item
+    for (let i = 0; i < li.length; i++) {
+      let item = li[i]; //loop through each fish list item
+      let fishname = item.innerText; //grab the fish name (inside the list item)
+      if (fishname.toLowerCase().indexOf(filter) > -1) { //make fish name lowercase
+        li[i].style.display = "";
+      } else {
+        li[i].style.display = "none";
+      }
+    }
+  }
+</script>
+
+
 
 <!-- <script>
 function search_fish() {

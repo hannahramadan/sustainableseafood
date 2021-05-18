@@ -33,10 +33,10 @@ Farmers market: by zip code & those that sell fish
 - Users can create an account and login
 - display fish name, image, sustainability status
 - Users can save fish to their favorites
-- Users can search by fish name and region 
---- autocomplete dropdown
+- Users can filter by status and region 
+- Users can search by fish name 
+--- autocomplete dropdown - Type ahead JS (Twitter open source project)
 ----- ask to select region as searchable
-
 
 #### 2.0
 
@@ -51,12 +51,12 @@ Farmers market: by zip code & those that sell fish
 #### 3.0
 
 - Users can text themselves their saved fish list
-- Clean up HTML tags in API response
+- Clean up HTML tags in API response // did this with "|safe"
 - Cloudflare/ download, store, resize images
 ----check if image is in static folder, if not, download to static. When image is served, check if in static, if so, serve that version. 
 - jQuery loading at once
 -- loading spinner
+- fish animation on profile page
 
 
 ### Notes
-
