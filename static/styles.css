@@ -1,5 +1,3 @@
-/* all-fish */
-
 .card-img {
     width: 100%;
     height: 15vw;
@@ -20,3 +18,16 @@ div.fish-score .score {
 }
 
 body { padding-top: 70px; }
+
+#loginpagestyle {
+background-image: url('https://acegif.com/wp-content/gifs/water-22.gif');
+background-size: cover;
+background-repeat: no-repeat;
+}
+
+.links:hover{
+    text-decoration: underline;
+}
+.login_container {
+    padding: 0 2rem;
+}

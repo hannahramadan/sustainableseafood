@@ -35,7 +35,7 @@ Farmers market: by zip code & those that sell fish
 - Users can save fish to their favorites
 - Users can filter by status and region 
 - Users can search by fish name 
---- autocomplete dropdown - Type ahead JS (Twitter open source project)
+--- autocomplete dropdown - Typeahead JS (Twitter open source project)
 ----- ask to select region as searchable
 
 #### 2.0

@@ -32,14 +32,14 @@
                     let results = detailresults[key];
                     let googleLink = results['GoogleLink']
                     let address = results['Address']
-                    let products = results['Products']
-                    let schedule = results['Schedule']
-                    addMarketsToDOM(marketplaces, googleLink, marketid, marketname)
+                    // let products = results['Products']
+                    // let schedule = results['Schedule']
+                    addMarketsToProfile(marketplaces, googleLink, marketid, marketname,address)
                 }
             }
         });
     }
     // Adds marketplaces and their map links to the DOM
-    function addMarketsToDOM(marketplaces, googleLink, marketid, marketname){
-        marketplaces.append('<a href="'+googleLink+'"target="_blank"><li id='+marketid+'>'+marketname+'</li></a>')
+    function addMarketsToProfile(marketplaces, googleLink, marketid, marketname, address){
+        marketplaces.append('<a href="'+googleLink+'"target="_blank"><li id='+marketid+' value='+marketid+'>'+marketname+'</li></a><ul><li>'+address+'</li></ul>')
     }

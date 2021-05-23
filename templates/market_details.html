@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Farmer's Market Details{% endblock %}
+
+{% block body %}
+
+
+<br><br><br>
+
+<h2 id="detailsmarketname">meow<h2>
+<p id="detailsgooglelink">meow1</p>
+<p id="detailsaddress">meow2</p>
+<p id="detailsschedule">meow3</p>
+
+<script>
+    let paths = window.location.pathname.split('/')
+    let marketid = paths[2]
+    console.log(marketid)
+    getDetails(marketid)
+</script>
+
+
+{% endblock %}

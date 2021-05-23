@@ -4,57 +4,38 @@
 
 {% block body %}
 
-<h2>Search Species</h2>
 
-<form>
-    <input id="myInput" type="text" onkeyup="mySearchFunction()" placeholder="Search species">
-</form>
-
-<ul id=fishSearch>
-    {% for fish in fishes %}
-    <li><a href="/species/{{ fish.fish_id }}">{{fish.name}}</a></li>
-    {% endfor %}
-</ul>
-
-
+<div class="container">
+  <br/>
+<div class="row justify-content-center">
+  <div class="col-12 col-md-10 col-lg-8">
+      <form class="card card-sm">
+          <div class="card-body row no-gutters align-items-center">
+              <div class="col">
+                  <input id="tags" class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search species">
+              </div>
+          </div>
+      </form>
+  </div>
+</div>
+</div>
 
 <script>
-function mySearchFunction() {
-    let input = document.getElementById("myInput"); //get what is being typed
-    let filter = input.value.toLowerCase(); //make it lower case
-    let ul = document.getElementById("fishSearch"); //get the list of the fishes to look through
-    let li = ul.getElementsByTagName("li");  //get each fish list item
-    for (let i = 0; i < li.length; i++) {
-      let item = li[i]; //loop through each fish list item
-      let fishname = item.innerText; //grab the fish name (inside the list item)
-      if (fishname.toLowerCase().indexOf(filter) > -1) { //make fish name lowercase
-        li[i].style.display = "";
-      } else {
-        li[i].style.display = "none";
+  $( function() {
+    var fishnamelist = {{fishnamelist|safe}};
+    //sub happend before JS saw the html
+    $("#tags").autocomplete({
+      source: fishnamelist,
+      select: function(event, ui){
+        window.location.href = ui.item.value;
+        return false;
+      },
+      focus: function(event, ui) {
+        event.preventDefault();
+        $("#tags").val(ui.item.label);
       }
-    }
-  }
-</script>
-
-
-
-<!-- <script>
-function search_fish() {
-    let input = document.getElementById('species').value
-    input=input.toLowerCase();
-    let x = document.getElementsByClassName('animals');
-      
-    for (i = 0; i < x.length; i++) { 
-        if (!x[i].innerHTML.toLowerCase().includes(input)) {
-            x[i].style.display="none";
-        }
-        else {
-            x[i].style.display="list-item";                 
-        }
-    }
-}
-</script> -->
-
-
+    });
+  });
+  </script>
 
 {% endblock %}

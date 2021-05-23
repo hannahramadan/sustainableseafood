@@ -6,6 +6,7 @@ from model import connect_to_db
 import crud
 from jinja2 import StrictUndefined
 from model import Fish
+import json
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -62,12 +63,34 @@ def login():
         return redirect ('/search')
 
 @app.route('/search')
-def search():
+def search():  
+
+    if (session.get('user_email')) == None:
+        return redirect("/")
+
     fishes = crud.get_all_fish()
-    return render_template ('search.html', fishes=fishes)
+
+    fishnamelist = []
+
+    for fish in fishes:
+        fishnamedict = {}
+        fishnamedict['label'] = fish.name
+        fishnamedict['value'] = f'http://localhost:5000/species/{fish.fish_id}'
+        fishnamedict['img'] = fish.img_url
+        fishnamelist.append(fishnamedict)
+    
+
+    return render_template ('search.html', fishes=fishes, fishnamelist=fishnamelist)
+
+    #endpoint that returns jsonified list and AJAX call to retrive
+
 
 @app.route('/species')
 def all_fish():
+
+    if (session.get('user_email')) == None:
+        return redirect("/")
+
     fishes = crud.get_all_fish()
 
     user_email = session["user_email"]
@@ -101,6 +124,9 @@ def all_fish():
 def get_species_details(fish_id):
     """View the details of a fish."""
 
+    if (session.get('user_email')) == None:
+        return redirect("/")
+
     fish = crud.get_fish_by_id(fish_id)
     img = fish.img_url
     name = fish.name
@@ -132,6 +158,9 @@ def get_species_details(fish_id):
 @app.route('/profile')
 def show_user():
     """Show particular user's profile page."""
+    if (session.get('user_email')) == None:
+        return redirect("/")
+
     user_email = session["user_email"]
     user = crud.get_user_by_email(user_email)
     favorites = crud.get_favorite_fish_by_user(user.user_id)
@@ -148,6 +177,8 @@ def log_out():
 @app.route('/favorite_fish/<fish_id>', methods=['POST'])
 def favorite(fish_id):
     """Favorite or remove a fish."""
+    if (session.get('user_email')) == None:
+        return redirect("/")
 
     user_email = session["user_email"]
     user = crud.get_user_by_email(user_email)
@@ -165,6 +196,10 @@ def favorite(fish_id):
 @app.route('/search_results')
 def search_fish():
     """Seach results."""
+
+    if (session.get('user_email')) == None:
+        return redirect("/")
+
     ratings = request.args.getlist('rating')
     regions = request.args.getlist('region')
 
@@ -179,6 +214,7 @@ def search_fish():
 
     return render_template ('/search_results.html',
                             fishes=fishes)
+
 
 #################Option using one function#############################
     # ratings = request.args.getlist('rating')
@@ -195,15 +231,6 @@ def search_fish():
 @app.route('/index')
 def index():
     return render_template("index.html")
-
-
-@app.route("/livesearch", methods=["POST", "GET"])
-def livesearch():
-    searchbox = request.form.get("text")
-    cursor = mysql.connection.cursor()
-    query = "select fish from fishes where fish LIKE '{}%' order by fish".format(searchbox)
-    result = cursor.fetchall()
-    return jsonify(result)
 
 
 if __name__ == '__main__':
