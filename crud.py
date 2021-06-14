@@ -76,6 +76,14 @@ def update_zip_code(email, zip_code):
     db.session.commit()
     return user
 
+def new_zip_code(email, zip_code):
+    """New user zip_code"""
+    user = User.query.filter(User.email == email).first()
+    user.zip_code = zip_code
+    db.session.add(user)
+    db.session.commit()
+    return user
+
 def get_all_fish():
     """Return all fish."""
     return Fish.query.all()
@@ -168,9 +176,6 @@ def get_favorite_fish_by_user(user_id):
         fish_objects.append(result)
     return fish_objects
 
-
-############################################
-
 def get_all_fishes_by_rating(scores):
     fishes = get_all_fish()
     final=[]
@@ -199,9 +204,14 @@ def get_all_fishes_by_region(regions):
                 if item in regions:
                     final.append(fish)
                     break #out of 2nd for loop
-
     return final
 
+def update_phone_number(phone_number, user_id):
+    user = User.query.filter(User.user_id == user_id).first()
+    user.phone_number = phone_number
+    db.session.add(user)
+    db.session.commit()
+    return user
 
 
 if __name__ == '__main__':

@@ -1,0 +1,20 @@
+.choice-container {
+    display: flex;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    font-size: 1.58rem;
+    border: 0.1rem solid rgb(86,165, 325, 0.25);
+    background-color: white;
+}
+
+.choice-container:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0.5rem 0 rgba(86, 185, 235, 0.5);
+    /* transform: translateY(-0.1rem); */
+    transition: transform 150ms;
+    }
+
+.choice-text{
+    padding: 1.5re;
+    width: 100%
+}

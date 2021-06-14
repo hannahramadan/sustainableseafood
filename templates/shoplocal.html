@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Sustainable Seafood{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div>
+        <p id=zip{{user.zip_code}} value={{user.zip_code}}>Shop local farmer's makets near <b>{{user.zip_code}}:</b></p>
+        <ul id="marketplaces"></ul>
+    </div>
+    
+    <div>
+        <p>Update your zip code at your <a href=/profile class="links">profile page</a></p>
+    </div>
+</div>
+
+
+<script>
+    $('#show').on('click', function () {
+        $('.center').show();
+        $(this).hide();
+    })
+
+    $('#close').on('click', function () {
+        $('.center').hide();
+        $('#show').show();
+    })
+</script>
+
+<script> // Call Farmer's Market API
+    let zip = $('#zip{{user.zip_code}}').attr('value')
+    getMarkets(zip)
+</script>
+
+{% endblock %}
+
+
+

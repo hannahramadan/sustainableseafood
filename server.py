@@ -7,10 +7,15 @@ import crud
 from jinja2 import StrictUndefined
 from model import Fish
 import json
+import os
+from twilio.rest import Client
 
 app = Flask(__name__)
 app.secret_key = "dev"
 
+account_sid = os.environ['TWILIO_ACCOUNT_SID']
+auth_token = os.environ['TWILIO_AUTH_TOKEN']
+client = Client(account_sid, auth_token)
 
 @app.route('/')
 def base():
@@ -91,32 +96,15 @@ def all_fish():
     if (session.get('user_email')) == None:
         return redirect("/")
 
-    fishes = crud.get_all_fish()
+    # for pagination
+    page = request.args.get('page', 1, type=int)
+    fishes = Fish.query.paginate(page = page, per_page=12)
 
     user_email = session["user_email"]
     user = crud.get_user_by_email(user_email)
     user_id = user.user_id
 
-    # # could only check for fish in favorites and return "remove", else return "add"
-
     favorites = crud.get_favorite_fish_by_user(user.user_id)
-
-    # # for fish in favorites:
-    # #     fish_id = get_fish_by_id(fish.fish_id)
-
-    # for fish in favorites:
-    #     watchlist = "Remove from watchlist"
-
-    #     else:
-    #         watchlist = "Add to watchlist"
-
-
-    # for fish in fishes:
-    #     if crud.does_favorite_exist(user_id, fish.fish_id) == True:
-    #         watchlist = "Remove from watchlist"
-
-    #     else:
-    #         watchlist = "Add to watchlist"
 
     return render_template("species.html", fishes=fishes, favorites=favorites)
 
@@ -128,6 +116,13 @@ def get_species_details(fish_id):
         return redirect("/")
 
     fish = crud.get_fish_by_id(fish_id)
+
+    user_email = session["user_email"]
+    user = crud.get_user_by_email(user_email)
+    user_id = user.user_id
+
+    favorites = crud.get_favorite_fish_by_user(user.user_id)
+
     img = fish.img_url
     name = fish.name
     likes = crud.fish_likes(fish_id)
@@ -142,10 +137,12 @@ def get_species_details(fish_id):
     population_status = species[0]["Population Status"]
     population = species[0]["Population"]
     habitat_impacts = species[0]["Habitat Impacts"]
+    scientific_name = species[0]["Scientific Name"]
     score = crud.get_fish_score(fish_id)
 
-    return render_template('species_details.html',
+    return render_template('species_details.html', 
                            fish=fish,
+                           favorites=favorites,
                            species_name=species_name,
                            species_region=species_region,
                            population_status=population_status,
@@ -153,7 +150,8 @@ def get_species_details(fish_id):
                            habitat_impacts=habitat_impacts, 
                            likes=likes,
                            score=score,
-                           img=img)
+                           img=img, 
+                           scientific_name=scientific_name)
 
 @app.route('/profile')
 def show_user():
@@ -165,7 +163,30 @@ def show_user():
     user = crud.get_user_by_email(user_email)
     favorites = crud.get_favorite_fish_by_user(user.user_id)
 
-    return render_template('profile.html', user = user, favorites=favorites)
+    return render_template('profile.html', user = user)
+
+@app.route('/watchlist')
+def watchlist():
+    """Show particular user's watchlist."""
+    if (session.get('user_email')) == None:
+        return redirect("/")
+
+    user_email = session["user_email"]
+    user = crud.get_user_by_email(user_email)
+    favorites = crud.get_favorite_fish_by_user(user.user_id)
+
+    return render_template('watchlist.html', user = user, favorites=favorites)
+
+@app.route('/shoplocal')
+def shop_local():
+    """Show particular user's profile page."""
+    if (session.get('user_email')) == None:
+        return redirect("/")
+
+    user_email = session["user_email"]
+    user = crud.get_user_by_email(user_email)
+
+    return render_template('shoplocal.html', user = user)
 
 @app.route('/logout')
 def log_out():
@@ -199,7 +220,7 @@ def search_fish():
 
     if (session.get('user_email')) == None:
         return redirect("/")
-
+    
     ratings = request.args.getlist('rating')
     regions = request.args.getlist('region')
 
@@ -213,10 +234,94 @@ def search_fish():
             fishes.append(fish)
 
     return render_template ('/search_results.html',
-                            fishes=fishes)
+                            fishes=fishes,
+                            ratings=ratings, 
+                            regions=regions)
 
 
-#################Option using one function#############################
+@app.route('/updatezipcode', methods=['POST'])
+def updatezipcode():
+    """Update user zip code."""
+    if (session.get('user_email')) == None:
+        return redirect("/")
+
+    user_email = session["user_email"]
+    user = crud.get_user_by_email(user_email)
+    favorites = crud.get_favorite_fish_by_user(user.user_id)
+    
+    zip_code = request.form.get('zip_code')
+
+    crud.new_zip_code(user_email, zip_code)
+
+    return redirect("/profile") 
+
+@app.route('/species/favorite_fish/<fish_id>', methods=['POST'])
+def detailfavorite(fish_id):
+    """Favorite or remove a fish."""
+    if (session.get('user_email')) == None:
+        return redirect("/")
+
+    user_email = session["user_email"]
+    user = crud.get_user_by_email(user_email)
+    user_id = user.user_id
+
+    if crud.does_favorite_exist(user_id, fish_id) == True:
+        crud.delete_favorite(user_id, fish_id)
+        response = "Add to watchlist"
+    else:
+        crud.create_favorite(user_id, fish_id)
+        response = "Remove from watchlist"
+
+    return jsonify(response)
+
+## React Practice ##
+@app.route("/quiz")
+def quiz():
+    return render_template("quiz.html")
+
+@app.route("/game")
+def game():
+    return render_template("game.html")
+
+@app.route("/play")
+def play():
+    return render_template("play.html")
+
+@app.route('/text_fish', methods=["POST"])
+def text_fish():
+
+    user_email = session["user_email"]
+    user = crud.get_user_by_email(user_email)
+    user_id = user.user_id
+
+    email = request.form.get('email')
+    phone_number = request.form.get('phone_number')
+    favorites = crud.get_favorite_fish_by_user(user.user_id)
+
+    crud.update_phone_number(phone_number, user_id)
+
+    text_list = []
+
+    for fish in favorites:
+        text_list.append(fish.name +": "+fish.score+ "\n")
+
+    msg = ''.join(text_list)
+
+    message = client.messages \
+                    .create(
+                        body=msg,
+                        from_='+15072003197',
+                        # would change phone number if live, can only send to verified Twilio number
+                        to='+15599993054'
+                    )
+    return redirect ("/watchlist")
+
+
+@app.route("/test")
+def test():
+    return render_template("/test.html")
+
+### Option using one function at a time ###
     # ratings = request.args.getlist('rating')
     # regions = request.args.getlist('region')
 
@@ -226,12 +331,7 @@ def search_fish():
     # return render_template ('/search_results.html',
     #                 fishes=fishes)
 
-########################################################################
-
-@app.route('/index')
-def index():
-    return render_template("index.html")
-
+###########################################
 
 if __name__ == '__main__':
     connect_to_db(app)

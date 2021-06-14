@@ -38,7 +38,7 @@ for fish in fish_data:
     fishes_in_db.append(db_fish)
 
 
-for n in range(2): 
+for n in range(500): 
     """Create fake users"""
     email = f'user{n}@test.com' 
     password = 'test'
@@ -47,7 +47,7 @@ for n in range(2):
 
     user = crud.create_user(email, password, zip_code, phone_number)
 
-for n in range(20):
+for n in range(2000):
     """Create fake user favorites"""
     user = choice(User.query.all())
     user_id = user.user_id

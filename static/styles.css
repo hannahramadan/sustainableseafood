@@ -5,11 +5,11 @@
     padding-top: 5%;
 }
 
-.details-img{
-    width: 10%;
+.details-img {
+    max-width: 50%;
     height: auto;
     object-fit: scale-down;
-}
+  }
 
 div.fish-score .score {
     margin: 0.5em 0;
@@ -17,12 +17,20 @@ div.fish-score .score {
     font-weight: bold;
 }
 
-body { padding-top: 70px; }
+body {
+    padding-top: 100px;
+  }
+  @media (max-width: 979px) {
+    body {
+      padding-top: 0px;
+    }
+  }
 
 #loginpagestyle {
-background-image: url('https://acegif.com/wp-content/gifs/water-22.gif');
+/* background-image: url('https://acegif.com/wp-content/gifs/water-22.gif'); */
 background-size: cover;
 background-repeat: no-repeat;
+background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://images.unsplash.com/photo-1549074862-6173e20d02a8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');
 }
 
 .links:hover{
@@ -31,3 +39,62 @@ background-repeat: no-repeat;
 .login_container {
     padding: 0 2rem;
 }
+
+.csscenter{
+    padding: 25px 0;
+    margin: auto;
+}
+
+.center {
+    margin: auto;
+    width: 60%;
+    padding: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.hideform {
+    display: none;
+}
+
+.logo {
+    margin: auto;
+    animation: rotation 45s infinite linear;
+  }
+
+  @keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
+
+.score1:hover{
+    background-color: rgba(117, 255, 209, 0.26);
+}
+
+.score2:hover{
+    background-color: rgba(250, 192, 144, 0.411);
+}
+
+.score3:hover{
+    background-color: rgba(255, 129, 129, 0.3);;
+}
+
+.spinner {
+    margin: auto;
+    animation: rotation 10s infinite linear;
+  }
+
+  @keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
+
+
+  

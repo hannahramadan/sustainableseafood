@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Sustainable Seafood{% endblock %}
+
+{% block body %}
+
+<link rel="stylesheet" href="static/game.css"/>
+<link rel="stylesheet" href="static/play.css"/>
+
+    <div class="container">
+        <div id="game" class="justify-center flex-column">
+            <h2 id="question">This is a question</h2>
+            <div class="choice-container">
+                <p class="choice-text" data-number="1">Choice 1</p>
+            </div>
+            <div class="choice-container">
+                <p class="choice-text" data-number="2">Choice 2</p>
+            </div>
+            <div class="choice-container">
+                <p class="choice-text" data-number="3">Choice 3</p>
+            </div>
+            <div class="choice-container">
+                <p class="choice-text" data-number="4">Choice 4</p>
+            </div>
+        </div>
+    </div>
+    <script src="static/play.js"></script>
+
+{% endblock %}
+
+
+
+
+
+
+

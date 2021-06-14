@@ -4,58 +4,59 @@
 
 {% block body %}
 
-<p><b>Email: {{user.email}}</b></p>
-
-<div>
-    <p id=zip{{user.zip_code}} value={{user.zip_code}}>Shop local farmer's makets near <b>{{user.zip_code}}:</b></p>
-    <ul id="marketplaces"></ul>
+<div
+    class="p-5 text-center bg-image"
+    style="
+    background: linear-gradient(to top, #001F54, #034078);
+    height: 200px;
+    "
+    >
+<div class="mask">
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="text-white">
+      <h1 class="mb-3">{{species_name}}</h1>
+      <h5 class="mb-3"><i>{{scientific_name|safe}}</i></h5>
+    </div>
+  </div>
+</div>
 </div>
 
-<h4>Your Watchlist</h4>
-<div class="row">
-    <!-- Create bootstrap container for fish -->
-    {% if favorites|length == 0 %}
-    <p>No seafood to display</p>
-    {% else %}
-        {% for fish in favorites %}
-        <div class="card" style="width: 18rem;">
-            <img src="{{ fish.img_url }}" class="card-img-top card-img" alt="{{fish.name}}">
-            <div class="card-body">
-                <h5 class="card-title"><a href="/species/{{ fish.fish_id }}">{{fish.name}}</a></h5>
-                <h6 class="card-subtitle mb-2 text-muted">Sustainability Rating: <b>{{fish.score}}</b></h6>
-                <!-- Query favorites table and display user favorited fish -->
-                {% if fish in favorites %}
-                    <form id="favorite" action='/favorite_fish/{{fish.fish_id}}' method='POST' >
-                        <button type="button" id='fave{{fish.fish_id}}' name = "{{fish.fish_id}}" value = "{{fish.fish_id}}" class="card-link">Remove from watchlist</button>
-                    </form>       
-                    {% else %}          
-                        <form id="favorite" action='/favorite_fish/{{fish.fish_id}}' method='POST' >
-                            <button type="button" id='fave{{fish.fish_id}}' name = "{{fish.fish_id}}" value = "{{fish.fish_id}}" class="card-link">Add to watchlist</button>
-                        </form>   
-                    {% endif %} 
+<div class="container">
+    <div style="padding-right: 100px; padding-left:100px;">
+        <p><b>Email: </b>{{user.email}}</p>
+        <div>
+            <p id=zip{{user.zip_code}} value={{user.zip_code}}><b>Zip code: </b>{{user.zip_code}}
+            </p>
+            <button id="show" class = "btn btn-outline-primary btn-sm">Update Zip Code</button>
+            <div class="center hideform">
+                <button id="close" style="float: right;">X</button>
+                <form action="/updatezipcode" method="POST">
+                    <input type="text" name="zip_code" pattern="\d{5}" placeholder="New Zip Code" oninvalid="alert('Please enter a valid 5 digit zip code.')" required> <br><br>
+                    <input type="submit" value="Update">
+                </form>
             </div>
-        <!-- Script to handle watchlist button -->
-        <script>
-            $(`#fave{{fish.fish_id}}`).on('click', (evt) => {
-                evt.preventDefault();
-                fish_id = $(`#fave{{fish.fish_id}}`).val()
-                $.post("favorite_fish/{{fish.fish_id}}", fish_id, (res) =>{
-                    $(`#fave{{fish.fish_id}}`).html(res)
-                    location.reload()
-                });
-            });
-        </script>
-      </div>
-      {% endfor %}
-  </div>
-  {% endif %} 
+        </div>
+    </div>
+</div>
 
-    <script> // Call Farmer's Market API
-        let zip = $('#zip{{user.zip_code}}').attr('value')
-        getMarkets(zip)
-    </script>
 
-    {% endblock %}
+
+
+
+<script>
+    $('#show').on('click', function () {
+        $('.center').show();
+        $(this).hide();
+    })
+
+    $('#close').on('click', function () {
+        $('.center').hide();
+        $('#show').show();
+    })
+</script>
+
+
+{% endblock %}
 
 
 

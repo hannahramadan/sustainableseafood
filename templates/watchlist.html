@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}Sustainable Seafood{% endblock %}
+
+{% block body %}
+
+
+<div
+    class="p-5 text-center bg-image"
+    style="
+    background: linear-gradient(to top, #001F54, #034078);
+    height: 175px;
+    "
+    >
+<div class="mask">
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="text-white">
+        <br>
+      <h2 class="mb-3">Watchlist</h2>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="container">
+    <div class="row"style="padding-right: 100px; padding-left:100px; padding-top:50px" >
+        <div class="col-8" >
+            <h4 >Your Watchlist</h4>
+            <!-- <div class="row"> -->
+                <!-- Create bootstrap container for fish -->
+                {% if favorites|length == 0 %}
+                <p>No species to display</p>
+                {% else %}
+                    {% for fish in favorites %}
+                    <div class="card score{{fish.score}}">
+                        <img src="{{ fish.img_url }}" class="card-img-top card-img" alt="{{fish.name}}">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="/species/{{ fish.fish_id }}">{{fish.name}}</a></h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Sustainability Rating: <b>{{fish.score}}</b></h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Region: {{fish.region}}</h6>   
+                            <!-- Query favorites table and display user favorited fish -->
+                            {% if fish in favorites %}
+                                <form id="favorite" action='/favorite_fish/{{fish.fish_id}}' method='POST' >
+                                    <button type="button" id='fave{{fish.fish_id}}' class="btn btn-sm btn-outline-primary" name = "{{fish.fish_id}}" value = "{{fish.fish_id}}" class="card-link">Remove from watchlist</button>
+                                </form>       
+                                {% else %}          
+                                    <form id="favorite" action='/favorite_fish/{{fish.fish_id}}' method='POST' >
+                                        <button type="button" id='fave{{fish.fish_id}}' name = "{{fish.fish_id}}" class="btn btn-sm btn-outline-primary" value = "{{fish.fish_id}}" class="card-link">Add to watchlist</button>
+                                    </form>   
+                                {% endif %} 
+                        </div>
+                    <!-- Script to handle watchlist button -->
+                    <script>
+                        $(`#fave{{fish.fish_id}}`).on('click', (evt) => {
+                            evt.preventDefault();
+                            fish_id = $(`#fave{{fish.fish_id}}`).val()
+                            $.post("favorite_fish/{{fish.fish_id}}", fish_id, (res) =>{
+                                $(`#fave{{fish.fish_id}}`).html(res)
+                                location.reload()
+                            });
+                        });
+                    </script>
+                </div>
+                {% endfor %}
+            <!-- </div> -->
+            {% endif %} 
+        </div>
+        <div class=col-4>
+            <h4>Text Your Watchlist</h4>
+            <div class="card">
+                <div class="card-body">
+                  <form method="POST">
+                      <input type="hidden" name="email" value = "{{user.email}}" >
+                      <input type="text" name="phone_number" pattern="\d{10}" placeholder="Your Number" oninvalid="alert('Please enter a valid 10 digit Number.')" required> <br><br>
+                      <button id="text_list" class="signUpText btn btn-outline-primary" formaction="/text_fish">Send</button>
+                  </form>
+                </div>
+              </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let button = document.querySelector('#text_list');
+    button.addEventListener('click', () => {
+    alert('Your seafood has been sent.');
+    });
+</script>
+
+<script>
+    $('#show').on('click', function () {
+        $('.center').show();
+        $(this).hide();
+    })
+
+    $('#close').on('click', function () {
+        $('.center').hide();
+        $('#show').show();
+    })
+</script>
+
+<script> // Call Farmer's Market API
+    let zip = $('#zip{{user.zip_code}}').attr('value')
+    getMarkets(zip)
+</script>
+
+{% endblock %}
+
+
+

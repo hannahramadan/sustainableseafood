@@ -4,16 +4,26 @@
 
 {% block body %}
 
-<h2>Eat Sustainable. Shop Local. </h2>
-<p>Buying local seafood has a lower environmental foot print. Tell us your zip code, and 
-  we'll tell you where to shop seafood.</p>
-<form id="createaccount" method="POST">
-    <input type="hidden" name="email" value = "{{email}}" >
-    <input type="hidden" name="password" value = "{{password}}"> 
-    <!-- <input type="text" name="zip_code" placeholder="Enter Zip Code" required> <br><br> -->
-    <input type="text" name="zip_code" pattern="\d{5}" placeholder="Enter Zip Code" oninvalid="alert('Please enter a valid 5 digit zip code.')" required> <br><br>
-    <button id="signup" class="signUpText" formaction="/login">Enter</button>
-  </form>
+<div class="container">
+  <div class="card">
+    <div class="d-flex justify-content-left h-100">
+      <div class="col-xl-5 col-md-8">
+        <div class="card-body">
+          <h2>Eat Sustainable. Shop Local. </h2>
+          <p>Buying local seafood has a lower environmental foot print. Tell us your zip code, and we'll tell you where to shop seafood.</p>
+          <form id="createaccount" method="POST">
+              <input type="hidden" name="email" value = "{{email}}" >
+              <input type="hidden" name="password" value = "{{password}}"> 
+              <!-- <input type="text" name="zip_code" placeholder="Enter Zip Code" required> <br><br> -->
+              <input type="text" name="zip_code" pattern="\d{5}" placeholder="Enter Zip Code" oninvalid="alert('Please enter a valid 5 digit zip code.')" required> <br><br>
+              <button id="signup" class="signUpText btn btn-sm btn-outline-primary" formaction="/login">Enter</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
 {% endblock %}
 
 

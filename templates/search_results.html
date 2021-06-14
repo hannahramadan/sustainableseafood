@@ -4,82 +4,121 @@
 
 {% block body %}
 
-<h1>Search Results</h1>
-<form action='/search_results'>
-    <input id="species" type="text" placeholder="Search species">
-    <fieldset>
-        <legend>Explore by rating: </legend>
-        <ul>
-            <li color-rating="green">
-                <input id="best choice" type="checkbox" name="rating" value="1">
-                <label>Best Choice (1)</label></li>
-            <li color-rating="yellow">
-                <input id="okay alternative" type="checkbox" name="rating" value="2">
-                <label>Okay Alternative (2)</label>
-            </li>
-            <li color-rating="red">
-                <input id="avoid" type="checkbox" name="rating" value="3">
-                <label>Avoid (3)</label>
-            </li>
-        </ul>
-    </fieldset>
-    <fieldset>
-        <legend>Explore by region: </legend>
-        <ul>
-            <li>
-                <input id="Greater Atlantic" type="checkbox" name="region" value="Greater Atlantic">
-                <label>Greater Atlantic</label></li>
-            <li>
-                <input id="West Coast" type="checkbox" name="region" value="West Coast">
-                <label>West Coast</label>
-            </li>
-            <li>
-                <input id="Alaska" type="checkbox" name="region" value="Alaska">
-                <label>Alaska</label>
-            </li>
-            <li>
-                <input id="Pacific Islands" type="checkbox" name="region" value="Pacific Islands">
-                <label>Pacific Islands</label>
-            </li>
-            <li>
-                <input id="Southeast" type="checkbox" name="region" value="Southeast">
-                <label>Southeast</label>
-            </li>
-        </ul>
-    </fieldset>
-    <button type="submit">Explore!</button>
-</form>
+<div
+    class="p-5 text-center bg-image"
+    style="
+    background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url('https://images.unsplash.com/photo-1549074862-6173e20d02a8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');
+    height: 200px;
+    "
+    >
+<div class="mask">
+  <div class="d-flex justify-content-center align-items-center h-100">
+    <div class="text-white">
+      <h1 class="mb-3">Explore Species</h1>
+      <h4 class="mb-3">Rating | Region</h4>
 
-<div class="row">
-    {% for fish in fishes %}
-    <div class="card" style="width: 18rem;">
-        <img src="{{ fish.img_url }}" class="card-img-top card-img" alt="{{fish.name}}">
-        <div class="card-body">
-            <h5 class="card-title"><a href="/species/{{ fish.fish_id }}">{{fish.name}}</a></h5>
-            <h6 class="card-subtitle mb-2 text-muted">Sustainability Rating: <b>{{fish.score}}</b></h6>
-            <h6 class="card-subtitle mb-2 text-muted">Region: {{fish.region}}</h6>
-            {% if fish in favorites %}
-                <form id="favorite" action='/favorite_fish/{{fish.fish_id}}' method='POST' >
-                    <button type="button" id='fave{{fish.fish_id}}' name = "{{fish.fish_id}}" value = "{{fish.fish_id}}" class="card-link">Remove from watchlist</button>
-                </form>       
-                {% else %}          
-                    <form id="favorite" action='/favorite_fish/{{fish.fish_id}}' method='POST' >
-                        <button type="button" id='fave{{fish.fish_id}}' name = "{{fish.fish_id}}" value = "{{fish.fish_id}}" class="card-link">Add to watchlist</button>
-                    </form>   
-                {% endif %} 
-        </div>
-        <script>
-            $(`#fave{{fish.fish_id}}`).on('click', (evt) => {
-                evt.preventDefault();
-                fish_id = $(`#fave{{fish.fish_id}}`).val()
-                $.post("favorite_fish/{{fish.fish_id}}", fish_id, (res) =>{
-                    $(`#fave{{fish.fish_id}}`).html(res)
-                    
-                });
-            });
-        </script>
-      </div>
-      {% endfor %}
+    </div>
   </div>
+</div>
+</div>
+
+<div class="row csscenter" style="padding-right: 50px; padding-left:50px;">
+    <form action='/search_results'>
+        <fieldset style="width:50%; float:left" id="color-rating">
+            <legend>Explore by rating: </legend>
+            <ul>
+                <li color-rating="green">
+                    <input id="best choice" type="checkbox" name="rating" value="1">
+                    <label>1 (Best Choice)</label></li>
+                <li color-rating="yellow">
+                    <input id="okay alternative" type="checkbox" name="rating" value="2">
+                    <label>2 (Okay Alternative)</label>
+                </li>
+                <li color-rating="red">
+                    <input id="avoid" type="checkbox" name="rating" value="3">
+                    <label>3 (Avoid)</label>
+                </li>
+            </ul>
+        </fieldset>
+        <fieldset style="margin-left:50%">
+            <legend>Explore by region: </legend>
+            <ul>
+                <li>
+                    <input id="Greater Atlantic" type="checkbox" name="region" value="Greater Atlantic">
+                    <label>Greater Atlantic</label></li>
+                <li>
+                    <input id="West Coast" type="checkbox" name="region" value="West Coast">
+                    <label>West Coast</label>
+                </li>
+                <li>
+                    <input id="Alaska" type="checkbox" name="region" value="Alaska">
+                    <label>Alaska</label>
+                </li>
+                <li>
+                    <input id="Pacific Islands" type="checkbox" name="region" value="Pacific Islands">
+                    <label>Pacific Islands</label>
+                </li>
+                <li>
+                    <input id="Southeast" type="checkbox" name="region" value="Southeast">
+                    <label>Southeast</label>
+                </li>
+            </ul>
+        </fieldset>
+        <button type="submit" class="btn btn-primary">Go Fish!</button>
+    </form><br><br>
+    <form action='/species'>
+        <button type="submit" class="btn btn-outline-primary">Reset Search</button>
+    </form>
+</div>
+
+<br>
+
+<script>
+    let regions = {{regions|safe}}
+    let ratings = {{ratings|safe}} 
+    for (region of regions){
+        document.querySelector(`input[value="${region}"]`).toggleAttribute('checked');
+    }
+    for (rating of ratings){
+        document.querySelector(`#color-rating input[value="${rating}"]`).toggleAttribute('checked');    
+    }
+</script>
+
+<div class="row csscenter" style="padding-right: 50px; padding-left:50px;">
+    <h1>Search Results</h1>
+    <div class="row">
+        {% for fish in fishes %}
+        <div class="card score{{fish.score}}" style="width: 18rem;">
+            <img src="{{ fish.img_url }}" class="card-img-top card-img" alt="{{fish.name}}">
+            <div class="card-body">
+                <h5 class="card-title"><a href="/species/{{ fish.fish_id }}">{{fish.name}}</a></h5>
+                <h6 class="card-subtitle mb-2 text-muted">Sustainability Rating: <b>{{fish.score}}</b></h6>
+                <h6 class="card-subtitle mb-2 text-muted">Region: {{fish.region}}</h6>
+                {% if fish in favorites %}
+                    <form id="favorite" action='/favorite_fish/{{fish.fish_id}}' method='POST' >
+                        <button type="button" id='fave{{fish.fish_id}}' name = "{{fish.fish_id}}" value = "{{fish.fish_id}}" class="card-link">Remove from watchlist</button>
+                    </form>       
+                    {% else %}          
+                        <form id="favorite" action='/favorite_fish/{{fish.fish_id}}' method='POST' >
+                            <button type="button" id='fave{{fish.fish_id}}' class="btn btn-sm btn-outline-primary" name = "{{fish.fish_id}}" value = "{{fish.fish_id}}" class="card-link">Add to watchlist</button>
+                        </form>   
+                    {% endif %} 
+            </div>
+            <script>
+                $(`#fave{{fish.fish_id}}`).on('click', (evt) => {
+                    evt.preventDefault();
+                    fish_id = $(`#fave{{fish.fish_id}}`).val()
+                    $.post("favorite_fish/{{fish.fish_id}}", fish_id, (res) =>{
+                        $(`#fave{{fish.fish_id}}`).html(res)
+                        
+                    });
+                });
+            </script>
+          </div>
+          {% endfor %}
+      </div>
+</div>
+
+
 
 {% endblock %}
