@@ -1,4 +1,3 @@
-
 # Sustainable Seafood
 by Hannah Ramadan
 
@@ -85,4 +84,4 @@ python3 server.py
 - Sustainability quiz
 - Visualization of most watched fish
 
-Thanks for viewing my project!
+Thanks for viewing my project! Check out my [LinkedIn](https://www.linkedin.com/in/hannahramadan/) to see what I'm up to.

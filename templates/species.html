@@ -7,82 +7,97 @@
 <div
     class="p-5 text-center bg-image"
     style="
-    background: linear-gradient(to top, #001F54, #034078);
+    background: linear-gradient(to top, #034078, #1282A2);
     height: 175px;
     "
     >
 <div class="mask">
   <div class="d-flex justify-content-center align-items-center">
     <div class="text-white">
-      <h2 class="mb-3">Explore Species</h2>
+      <h2 class="mb-3">Discover Sustainable Species</h2>
       <h5 class="mb-3">Rating | Region</h5>
     </div>
   </div>
 </div>
 </div>
 
-<div class="container">
-    <div class="row csscenter" style="padding-right: 100px; padding-left:100px;">
+<div class="center">
+    <div class="row centersearch">
         <form action='/search_results'>
-            <fieldset style="width:50%; float:left">
-                <legend>Explore by rating: </legend>
-                <ul>
-                    <li color-rating="green">
-                        <input id="best choice" type="checkbox" name="rating" value="1">
-                        <label>1 (Best Choice)</label></li>
-                    <li color-rating="yellow">
-                        <input id="okay alternative" type="checkbox" name="rating" value="2">
-                        <label>2 (Okay Alternative)</label>
-                    </li>
-                    <li color-rating="red">
-                        <input id="avoid" type="checkbox" name="rating" value="3">
-                        <label>3 (Avoid)</label>
-                    </li>
+            <div id="list1" class="dropdown-check-list" style="padding-left: 200px;">
+                <span class="anchor">Rating</span>
+                <ul id="items1" class="items">
+                    <li><input id="best choice" type="checkbox" name="rating" value="1">1 (Best Choice)</li>
+                    <li><input id="okay alternative" type="checkbox" name="rating" value="2">2 (Okay Alternative)</li>
+                    <li><input id="avoid" type="checkbox" name="rating" value="3">3 (Avoid)</li>
                 </ul>
-            </fieldset>
-            <fieldset style="margin-left:50%">
-                <legend>Explore by region: </legend>
-                <ul>
-                    <li>
-                        <input id="Greater Atlantic" type="checkbox" name="region" value="Greater Atlantic">
-                        <label>Greater Atlantic</label></li>
-                    <li>
-                        <input id="West Coast" type="checkbox" name="region" value="West Coast">
-                        <label>West Coast</label>
-                    </li>
-                    <li>
-                        <input id="Alaska" type="checkbox" name="region" value="Alaska">
-                        <label>Alaska</label>
-                    </li>
-                    <li>
-                        <input id="Pacific Islands" type="checkbox" name="region" value="Pacific Islands">
-                        <label>Pacific Islands</label>
-                    </li>
-                    <li>
-                        <input id="Southeast" type="checkbox" name="region" value="Southeast">
-                        <label>Southeast</label>
-                    </li>
+            </div>
+            <div id="list2" class="dropdown-check-list" >
+                <span class="anchor">Region</span>
+                <ul id="items2" class="items">
+                    <li><input id="Greater Atlantic" type="checkbox" name="region" value="Greater Atlantic">Greater Atlantic</li>
+                    <li><input id="West Coast" type="checkbox" name="region" value="West Coast">West Coast</li>
+                    <li><input id="Alaska" type="checkbox" name="region" value="Alaska">Alaska</li>
+                    <li><input id="Pacific Islands" type="checkbox" name="region" value="Pacific Islands">Pacific Islands</li>
+                    <li><input id="Southeast" type="checkbox" name="region" value="Southeast">Southeast</li>
                 </ul>
-            </fieldset>
+            </div>
             <button type="submit" class="btn btn-primary">Go Fish!</button>
         </form>
     </div>
-    <div style="padding-right: 100px; padding-left:100px;">
-        <h1>All Species</h1>
-    
-        {% for page_num in fishes.iter_pages(left_edge=10, right_edge=10,left_current=10, right_current=10) %}
-        {% if page_num %}
-            {% if fishes.page == page_num %}
-                <a class="btn btn-primary mb-4 " href="{{ url_for('all_fish', page=page_num)}}">{{page_num}}</a>
-            {% else %}
-                <a class="btn btn-outline-primary mb-4 " href="{{ url_for('all_fish', page=page_num)}}">{{page_num}}</a>
-            {% endif %}
-        {% else %}
-            ...
-        {% endif %}
-        {% endfor %}
+
+</div>
+
+
+<script>
+    var checkList1 = document.getElementById('list1');
+    var items1 = document.getElementById('items1');
+        checkList1.getElementsByClassName('anchor')[0].onclick = function (evt) {
+            if (items1.classList.contains('visible')){
+                items1.classList.remove('visible');
+                items1.style.display = "none";
+            }
+            else{
+                items1.classList.add('visible');
+                items1.style.display = "block";
+            }
+        }
+
+        items1.onblur = function(evt) {
+            items1.classList.remove('visible');
+        }
+</script>
+
+<script>
+    var checkList2 = document.getElementById('list2');
+    var items2 = document.getElementById('items2');
+        checkList2.getElementsByClassName('anchor')[0].onclick = function (evt) {
+            if (items2.classList.contains('visible')){
+                items2.classList.remove('visible');
+                items2.style.display = "none";
+            }
+            else{
+                items2.classList.add('visible');
+                items2.style.display = "block";
+            }
+        }
+
+        items2.onblur = function(evt) {
+            items2.classList.remove('visible');
+        }
+</script>
+
+<br><br><br>
+<div class="mask">
+  <div class="d-flex justify-content-center align-text-center">
+    <div class="text-black">
+      <h3 class="mb-3">All Species</h3>
     </div>
-    
+  </div>
+</div>
+
+
+<div class="container">
     <div id="loading">
         <img src="https://www.sustainableseafoodcoalition.org/wp-content/uploads/sustainable_fish_cycle.png"width="50" height="50" padding="5%" class="row spinner"><br>
     </div>
@@ -123,6 +138,20 @@
             </div>
     </div>
 </div>
+<div class="justify-content-center" style="padding-left:500px;">
+    {% for page_num in fishes.iter_pages(left_edge=10, right_edge=10,left_current=10, right_current=10) %}
+    {% if page_num %}
+        {% if fishes.page == page_num %}
+            <a class="btn btn-primary mb-4 " href="{{ url_for('all_fish', page=page_num)}}">{{page_num}}</a>
+        {% else %}
+            <a class="btn btn-outline-primary mb-4 " href="{{ url_for('all_fish', page=page_num)}}">{{page_num}}</a>
+        {% endif %}
+    {% else %}
+        ...
+    {% endif %}
+    {% endfor %}
+</div>
+
 
 <script type="text/javascript">
     $(document).ready(function() {

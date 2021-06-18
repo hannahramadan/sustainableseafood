@@ -7,118 +7,129 @@
 <div
     class="p-5 text-center bg-image"
     style="
-    background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url('https://images.unsplash.com/photo-1549074862-6173e20d02a8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');
-    height: 200px;
+    background: linear-gradient(to top, #034078, #1282A2);
+    height: 175px;
     "
     >
 <div class="mask">
-  <div class="d-flex justify-content-center align-items-center h-100">
+  <div class="d-flex justify-content-center align-items-center">
     <div class="text-white">
-      <h1 class="mb-3">Explore Species</h1>
-      <h4 class="mb-3">Rating | Region</h4>
-
+      <h2 class="mb-3">Explore Species</h2>
+      <h5 class="mb-3">Rating | Region</h5>
     </div>
   </div>
 </div>
 </div>
 
-<div class="row csscenter" style="padding-right: 50px; padding-left:50px;">
-    <form action='/search_results'>
-        <fieldset style="width:50%; float:left" id="color-rating">
-            <legend>Explore by rating: </legend>
-            <ul>
-                <li color-rating="green">
-                    <input id="best choice" type="checkbox" name="rating" value="1">
-                    <label>1 (Best Choice)</label></li>
-                <li color-rating="yellow">
-                    <input id="okay alternative" type="checkbox" name="rating" value="2">
-                    <label>2 (Okay Alternative)</label>
-                </li>
-                <li color-rating="red">
-                    <input id="avoid" type="checkbox" name="rating" value="3">
-                    <label>3 (Avoid)</label>
-                </li>
-            </ul>
-        </fieldset>
-        <fieldset style="margin-left:50%">
-            <legend>Explore by region: </legend>
-            <ul>
-                <li>
-                    <input id="Greater Atlantic" type="checkbox" name="region" value="Greater Atlantic">
-                    <label>Greater Atlantic</label></li>
-                <li>
-                    <input id="West Coast" type="checkbox" name="region" value="West Coast">
-                    <label>West Coast</label>
-                </li>
-                <li>
-                    <input id="Alaska" type="checkbox" name="region" value="Alaska">
-                    <label>Alaska</label>
-                </li>
-                <li>
-                    <input id="Pacific Islands" type="checkbox" name="region" value="Pacific Islands">
-                    <label>Pacific Islands</label>
-                </li>
-                <li>
-                    <input id="Southeast" type="checkbox" name="region" value="Southeast">
-                    <label>Southeast</label>
-                </li>
-            </ul>
-        </fieldset>
-        <button type="submit" class="btn btn-primary">Go Fish!</button>
-    </form><br><br>
-    <form action='/species'>
-        <button type="submit" class="btn btn-outline-primary">Reset Search</button>
-    </form>
+<div class="center">
+    <div class="row centersearch">
+        <form action='/search_results'>
+            <div id="list1" class="dropdown-check-list" style="padding-left: 200px;">
+                <span class="anchor">Rating</span>
+                <ul id="items1" class="items">
+                    <li><input id="best choice" type="checkbox" name="rating" value="1">1 (Best Choice)</li>
+                    <li><input id="okay alternative" type="checkbox" name="rating" value="2">2 (Okay Alternative)</li>
+                    <li><input id="avoid" type="checkbox" name="rating" value="3">3 (Avoid)</li>
+                </ul>
+            </div>
+            <div id="list2" class="dropdown-check-list" >
+                <span class="anchor">Region</span>
+                <ul id="items2" class="items">
+                    <li><input id="Greater Atlantic" type="checkbox" name="region" value="Greater Atlantic">Greater Atlantic</li>
+                    <li><input id="West Coast" type="checkbox" name="region" value="West Coast">West Coast</li>
+                    <li><input id="Alaska" type="checkbox" name="region" value="Alaska">Alaska</li>
+                    <li><input id="Pacific Islands" type="checkbox" name="region" value="Pacific Islands">Pacific Islands</li>
+                    <li><input id="Southeast" type="checkbox" name="region" value="Southeast">Southeast</li>
+                </ul>
+            </div>
+            <button type="submit" class="btn btn-primary">Go Fish!</button>
+        </form>
+    </div>
 </div>
 
-<br>
 
 <script>
-    let regions = {{regions|safe}}
-    let ratings = {{ratings|safe}} 
-    for (region of regions){
-        document.querySelector(`input[value="${region}"]`).toggleAttribute('checked');
-    }
-    for (rating of ratings){
-        document.querySelector(`#color-rating input[value="${rating}"]`).toggleAttribute('checked');    
-    }
+    var checkList1 = document.getElementById('list1');
+    var items1 = document.getElementById('items1');
+        checkList1.getElementsByClassName('anchor')[0].onclick = function (evt) {
+            if (items1.classList.contains('visible')){
+                items1.classList.remove('visible');
+                items1.style.display = "none";
+            }
+            else{
+                items1.classList.add('visible');
+                items1.style.display = "block";
+            }
+        }
+
+        items1.onblur = function(evt) {
+            items1.classList.remove('visible');
+        }
 </script>
 
-<div class="row csscenter" style="padding-right: 50px; padding-left:50px;">
-    <h1>Search Results</h1>
-    <div class="row">
-        {% for fish in fishes %}
-        <div class="card score{{fish.score}}" style="width: 18rem;">
-            <img src="{{ fish.img_url }}" class="card-img-top card-img" alt="{{fish.name}}">
-            <div class="card-body">
-                <h5 class="card-title"><a href="/species/{{ fish.fish_id }}">{{fish.name}}</a></h5>
-                <h6 class="card-subtitle mb-2 text-muted">Sustainability Rating: <b>{{fish.score}}</b></h6>
-                <h6 class="card-subtitle mb-2 text-muted">Region: {{fish.region}}</h6>
-                {% if fish in favorites %}
-                    <form id="favorite" action='/favorite_fish/{{fish.fish_id}}' method='POST' >
-                        <button type="button" id='fave{{fish.fish_id}}' name = "{{fish.fish_id}}" value = "{{fish.fish_id}}" class="card-link">Remove from watchlist</button>
-                    </form>       
-                    {% else %}          
-                        <form id="favorite" action='/favorite_fish/{{fish.fish_id}}' method='POST' >
-                            <button type="button" id='fave{{fish.fish_id}}' class="btn btn-sm btn-outline-primary" name = "{{fish.fish_id}}" value = "{{fish.fish_id}}" class="card-link">Add to watchlist</button>
-                        </form>   
-                    {% endif %} 
-            </div>
-            <script>
-                $(`#fave{{fish.fish_id}}`).on('click', (evt) => {
-                    evt.preventDefault();
-                    fish_id = $(`#fave{{fish.fish_id}}`).val()
-                    $.post("favorite_fish/{{fish.fish_id}}", fish_id, (res) =>{
-                        $(`#fave{{fish.fish_id}}`).html(res)
-                        
-                    });
-                });
-            </script>
-          </div>
-          {% endfor %}
+<script>
+    var checkList2 = document.getElementById('list2');
+    var items2 = document.getElementById('items2');
+        checkList2.getElementsByClassName('anchor')[0].onclick = function (evt) {
+            if (items2.classList.contains('visible')){
+                items2.classList.remove('visible');
+                items2.style.display = "none";
+            }
+            else{
+                items2.classList.add('visible');
+                items2.style.display = "block";
+            }
+        }
+
+        items2.onblur = function(evt) {
+            items2.classList.remove('visible');
+        }
+</script>
+
+<br><br><br>
+
+<div class="mask">
+    <div class="d-flex justify-content-center align-text-center">
+      <div class="text-black">
+        <h3 class="mb-3">Results</h3>
       </div>
+    </div>
+  </div>
+
+<div class="container">
+    <div class="row csscenter" style="padding-right: 50px; padding-left:50px;">
+        <div class="row">
+            {% for fish in fishes %}
+            <div class="card score{{fish.score}}" style="width: 18rem;">
+                <img src="{{ fish.img_url }}" class="card-img-top card-img" alt="{{fish.name}}">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="/species/{{ fish.fish_id }}">{{fish.name}}</a></h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Sustainability Rating: <b>{{fish.score}}</b></h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Region: {{fish.region}}</h6>
+                    {% if fish in favorites %}
+                        <form id="favorite" action='/favorite_fish/{{fish.fish_id}}' method='POST' >
+                            <button type="button" id='fave{{fish.fish_id}}' name = "{{fish.fish_id}}" value = "{{fish.fish_id}}" class="card-link">Remove from watchlist</button>
+                        </form>       
+                        {% else %}          
+                            <form id="favorite" action='/favorite_fish/{{fish.fish_id}}' method='POST' >
+                                <button type="button" id='fave{{fish.fish_id}}' class="btn btn-sm btn-outline-primary" name = "{{fish.fish_id}}" value = "{{fish.fish_id}}" class="card-link">Add to watchlist</button>
+                            </form>   
+                        {% endif %} 
+                </div>
+                <script>
+                    $(`#fave{{fish.fish_id}}`).on('click', (evt) => {
+                        evt.preventDefault();
+                        fish_id = $(`#fave{{fish.fish_id}}`).val()
+                        $.post("favorite_fish/{{fish.fish_id}}", fish_id, (res) =>{
+                            $(`#fave{{fish.fish_id}}`).html(res)
+                            
+                        });
+                    });
+                </script>
+              </div>
+              {% endfor %}
+          </div>
+    </div>
 </div>
-
-
 
 {% endblock %}

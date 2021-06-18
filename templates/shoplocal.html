@@ -4,14 +4,38 @@
 
 {% block body %}
 
-<div class="container">
+<div
+    class="p-5 text-center bg-image"
+    style="
+    background: linear-gradient(to top, #034078, #1282A2);
+    height: 175px;
+    "
+    >
+<div class="mask">
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="text-white">
+      <h2 class="mb-3">Shop Local</h2>
+      <h5 class="mb-3">Farmer's Markets Near You</h5>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="container center">
     <div>
         <p id=zip{{user.zip_code}} value={{user.zip_code}}>Shop local farmer's makets near <b>{{user.zip_code}}:</b></p>
         <ul id="marketplaces"></ul>
     </div>
     
     <div>
-        <p>Update your zip code at your <a href=/profile class="links">profile page</a></p>
+        <button id="show" class = "btn btn-primary">Update Zip Code</button>
+        <div class="center hideform">
+            <button id="close" style="float: right;">X</button>
+            <form action="/updatezipcode" method="POST">
+                <input type="text" name="zip_code" pattern="\d{5}" placeholder="New Zip Code" oninvalid="alert('Please enter a valid 5 digit zip code.')" required> <br><br>
+                <input type="submit" value="Update">
+            </form>
+        </div>
     </div>
 </div>
 
@@ -32,6 +56,7 @@
     let zip = $('#zip{{user.zip_code}}').attr('value')
     getMarkets(zip)
 </script>
+
 
 {% endblock %}
 

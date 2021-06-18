@@ -90,7 +90,7 @@ def search():
     #endpoint that returns jsonified list and AJAX call to retrive
 
 
-@app.route('/species')
+@app.route('/discover')
 def all_fish():
 
     if (session.get('user_email')) == None:
@@ -138,6 +138,7 @@ def get_species_details(fish_id):
     population = species[0]["Population"]
     habitat_impacts = species[0]["Habitat Impacts"]
     scientific_name = species[0]["Scientific Name"]
+    fishery_management = species[0]["Fishery Management"]
     score = crud.get_fish_score(fish_id)
 
     return render_template('species_details.html', 
@@ -151,7 +152,8 @@ def get_species_details(fish_id):
                            likes=likes,
                            score=score,
                            img=img, 
-                           scientific_name=scientific_name)
+                           scientific_name=scientific_name,
+                           fishery_management=fishery_management)
 
 @app.route('/profile')
 def show_user():
@@ -253,7 +255,7 @@ def updatezipcode():
 
     crud.new_zip_code(user_email, zip_code)
 
-    return redirect("/profile") 
+    return redirect("/shoplocal") 
 
 @app.route('/species/favorite_fish/<fish_id>', methods=['POST'])
 def detailfavorite(fish_id):
@@ -314,12 +316,13 @@ def text_fish():
                         # would change phone number if live, can only send to verified Twilio number
                         to='+15599993054'
                     )
-    return redirect ("/watchlist")
+    return redirect(request.referrer)
 
 
-@app.route("/test")
-def test():
-    return render_template("/test.html")
+
+@app.route("/species")
+def species_redirect():
+    return redirect("/discover")
 
 ### Option using one function at a time ###
     # ratings = request.args.getlist('rating')

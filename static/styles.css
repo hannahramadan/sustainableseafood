@@ -1,3 +1,5 @@
+
+
 .card-img {
     width: 100%;
     height: 15vw;
@@ -19,6 +21,7 @@ div.fish-score .score {
 
 body {
     padding-top: 100px;
+    padding-bottom: 100px;
   }
   @media (max-width: 979px) {
     body {
@@ -30,7 +33,8 @@ body {
 /* background-image: url('https://acegif.com/wp-content/gifs/water-22.gif'); */
 background-size: cover;
 background-repeat: no-repeat;
-background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://images.unsplash.com/photo-1549074862-6173e20d02a8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');
+background-position: center;
+background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://wallpaperaccess.com/full/1860887.jpg');
 }
 
 .links:hover{
@@ -47,10 +51,11 @@ background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('http
 
 .center {
     margin: auto;
-    width: 60%;
+    width: 75%;
     padding: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
 
 .hideform {
     display: none;
@@ -97,4 +102,93 @@ background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('http
   }
 
 
-  
+
+
+/* ------------ */
+.multiselect {
+    width: 300px;
+}
+
+.selectBox {
+    position: relative;
+}
+
+.selectBox select {
+    width: 100%;
+    font-weight: bold;
+}
+
+.overSelect {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+#checkboxesrating {
+    display: none;
+    border: 1px #dadada solid;
+}
+
+/* #checkboxesrating label {
+    display: block;
+} */
+
+#checkboxesrating label:hover {
+    background-color: #1e90ff;
+}
+
+#checkboxesregion {
+    display: none;
+    border: 1px #dadada solid;
+}
+/* 
+#checkboxesregion label {
+    display: block;
+} */
+
+#checkboxesregion label:hover {
+    background-color: #1e90ff;
+}
+
+
+
+.dropdown-check-list {
+    display: inline-block;
+  }
+  .dropdown-check-list .anchor {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px 200px 5px 10px;
+    border: 1px solid #ccc;
+  }
+  .dropdown-check-list .anchor:after {
+    position: absolute;
+    content: "";
+    border-left: 2px solid black;
+    border-top: 2px solid black;
+    padding: 5px;
+    right: 10px;
+    top: 20%;
+    -moz-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    -o-transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+  }
+  .dropdown-check-list .anchor:active:after {
+    right: 8px;
+    top: 21%;
+  }
+  .dropdown-check-list ul.items {
+    padding: 2px;
+    display: none;
+    margin: 0;
+    border: 1px solid #ccc;
+
+  }
+  .dropdown-check-list ul.items li {
+    list-style: none;
+  }

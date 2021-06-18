@@ -8,7 +8,7 @@
 <div
     class="p-5 text-center bg-image"
     style="
-    background: linear-gradient(to top, #001F54, #034078);
+    background: linear-gradient(to top, #034078, #1282A2);
     height: 175px;
     "
     >
@@ -22,14 +22,15 @@
 </div>
 </div>
 
+
 <div class="container">
     <div class="row"style="padding-right: 100px; padding-left:100px; padding-top:50px" >
-        <div class="col-8" >
+        <div class="col-8">
             <h4 >Your Watchlist</h4>
             <!-- <div class="row"> -->
                 <!-- Create bootstrap container for fish -->
                 {% if favorites|length == 0 %}
-                <p>No species to display</p>
+                <p>You're not watching any fish. Why not <a href="/discover">discover</a> some?</p>
                 {% else %}
                     {% for fish in favorites %}
                     <div class="card score{{fish.score}}">
@@ -72,8 +73,12 @@
                   <form method="POST">
                       <input type="hidden" name="email" value = "{{user.email}}" >
                       <input type="text" name="phone_number" pattern="\d{10}" placeholder="Your Number" oninvalid="alert('Please enter a valid 10 digit Number.')" required> <br><br>
-                      <button id="text_list" class="signUpText btn btn-outline-primary" formaction="/text_fish">Send</button>
+                      <button id="text_list" class="signUpText btn btn-primary" formaction="/text_fish">Send</button>
                   </form>
+                  <br>
+                  <div id="textsuccess" class="alert alert-success hideform" role="alert">
+                    Your seafood has been sent!
+                  </div>
                 </div>
               </div>
         </div>
@@ -82,11 +87,18 @@
 </div>
 
 <script>
+    $('#text_list').on('click', function (evt) {
+        $('#textsuccess').show();
+    })
+</script>
+
+
+<!-- <script>
     let button = document.querySelector('#text_list');
     button.addEventListener('click', () => {
     alert('Your seafood has been sent.');
     });
-</script>
+</script> -->
 
 <script>
     $('#show').on('click', function () {
