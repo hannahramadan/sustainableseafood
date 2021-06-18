@@ -4,7 +4,7 @@ by Hannah Ramadan
 
 As a vegetarian for over 8 years, I’ve gotten a lot of “you don’t even fish?” This got me thinking about the number of people who would cut down on meat consumption, while keeping fish in their diet. For my solo capstone project at [Hackbright Academy](https://hackbrightacademy.com/), I created Sustainable Seafood. 
 
-Sustainable Seafood is a webapp where users can search for, discover, and keep track of sustinable seafood. This app aims to help people make better food choices they make when it comes to eating sustainably. 
+Sustainable Seafood is a webapp where users can search for, discover, and keep track of sustainable seafood. This app aims to help people make better food choices they make when it comes to eating sustainably.
 
 <img width="1440" alt="Screen Shot 2021-06-18 at 7 01 18 AM" src="https://user-images.githubusercontent.com/76922290/122572858-01e20100-d003-11eb-8e1b-1eaaa585b2d5.png">
 
@@ -21,6 +21,7 @@ Sustainable Seafood is a webapp where users can search for, discover, and keep t
 - Backend: Python3, Flask, PostgreSQL, SQLAlchemy, Jinja2
 - Frontend: JavaScript, jQuery, HTML5, CSS, Bootstrap
 - APIs: Twilio for SMS, FishWatch.gov Species Content, USDA National Farmers Market Directory
+
 
 ![Untitled design](https://user-images.githubusercontent.com/76922290/122577291-76b73a00-d007-11eb-839d-f5051895bf08.png)
 
