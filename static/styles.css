@@ -152,9 +152,8 @@ background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('http
     background-color: #1e90ff;
 }
 
-
-
 .dropdown-check-list {
+    position: relative;
     display: inline-block;
   }
   .dropdown-check-list .anchor {

@@ -97,10 +97,10 @@
   </div>
 
 <div class="container">
-    <div class="row csscenter" style="padding-right: 50px; padding-left:50px;">
+    <div class="row csscenter" style="padding-left: 30px;">
         <div class="row">
             {% for fish in fishes %}
-            <div class="card score{{fish.score}}" style="width: 18rem;">
+            <div class="card score{{fish.score}} m-2" style="width: 18rem;">
                 <img src="{{ fish.img_url }}" class="card-img-top card-img" alt="{{fish.name}}">
                 <div class="card-body">
                     <h5 class="card-title"><a href="/species/{{ fish.fish_id }}">{{fish.name}}</a></h5>
