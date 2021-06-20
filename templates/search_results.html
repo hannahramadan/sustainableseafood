@@ -5,36 +5,36 @@
 {% block body %}
 
 <div
-    class="p-5 text-center bg-image"
+    class="p-3 text-center bg-image"
     style="
     background: linear-gradient(to top, #034078, #1282A2);
-    height: 175px;
+    height: 115px;
     "
     >
 <div class="mask">
   <div class="d-flex justify-content-center align-items-center">
     <div class="text-white">
-      <h2 class="mb-3">Explore Species</h2>
+      <h2 class="mb-3">Discover Sustainable Species</h2>
       <h5 class="mb-3">Rating | Region</h5>
     </div>
   </div>
 </div>
 </div>
-
+<br>
 <div class="center">
     <div class="row centersearch">
         <form action='/search_results'>
-            <div id="list1" class="dropdown-check-list" style="padding-left: 200px;">
-                <span class="anchor">Rating</span>
-                <ul id="items1" class="items">
+            <div id="list1" class="dropdown-check-list dropdown" style="padding-left: 200px;">
+                <span class="anchor dropbtn">Rating</span>
+                <ul id="items1" class="items dropdown-content">
                     <li><input id="best choice" type="checkbox" name="rating" value="1">1 (Best Choice)</li>
                     <li><input id="okay alternative" type="checkbox" name="rating" value="2">2 (Okay Alternative)</li>
                     <li><input id="avoid" type="checkbox" name="rating" value="3">3 (Avoid)</li>
                 </ul>
             </div>
-            <div id="list2" class="dropdown-check-list" >
-                <span class="anchor">Region</span>
-                <ul id="items2" class="items">
+            <div id="list2" class="dropdown-check-list dropdown" >
+                <span class="anchor dropbtn">Region</span>
+                <ul id="items2" class="items dropdown-content">
                     <li><input id="Greater Atlantic" type="checkbox" name="region" value="Greater Atlantic">Greater Atlantic</li>
                     <li><input id="West Coast" type="checkbox" name="region" value="West Coast">West Coast</li>
                     <li><input id="Alaska" type="checkbox" name="region" value="Alaska">Alaska</li>
@@ -91,7 +91,7 @@
 <div class="mask">
     <div class="d-flex justify-content-center align-text-center">
       <div class="text-black">
-        <h3 class="mb-3">Results</h3>
+        <h3 class="mb-3">Search Results</h3>
       </div>
     </div>
   </div>

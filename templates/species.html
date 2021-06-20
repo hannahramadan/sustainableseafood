@@ -5,10 +5,10 @@
 {% block body %}
 
 <div
-    class="p-5 text-center bg-image"
+    class="p-3 text-center bg-image"
     style="
     background: linear-gradient(to top, #034078, #1282A2);
-    height: 175px;
+    height: 115px;
     "
     >
 <div class="mask">
@@ -20,21 +20,22 @@
   </div>
 </div>
 </div>
+<br>
 
 <div class="center">
     <div class="row centersearch">
         <form action='/search_results'>
-            <div id="list1" class="dropdown-check-list" style="padding-left: 200px;">
-                <span class="anchor">Rating</span>
-                <ul id="items1" class="items">
+            <div id="list1" class="dropdown-check-list dropdown" style="padding-left: 200px;">
+                <span class="anchor dropbtn">Rating</span>
+                <ul id="items1" class="items dropdown-content">
                     <li><input id="best choice" type="checkbox" name="rating" value="1">1 (Best Choice)</li>
                     <li><input id="okay alternative" type="checkbox" name="rating" value="2">2 (Okay Alternative)</li>
                     <li><input id="avoid" type="checkbox" name="rating" value="3">3 (Avoid)</li>
                 </ul>
             </div>
-            <div id="list2" class="dropdown-check-list" >
-                <span class="anchor">Region</span>
-                <ul id="items2" class="items">
+            <div id="list2" class="dropdown-check-list dropdown" >
+                <span class="anchor dropbtn">Region</span>
+                <ul id="items2" class="items dropdown-content">
                     <li><input id="Greater Atlantic" type="checkbox" name="region" value="Greater Atlantic">Greater Atlantic</li>
                     <li><input id="West Coast" type="checkbox" name="region" value="West Coast">West Coast</li>
                     <li><input id="Alaska" type="checkbox" name="region" value="Alaska">Alaska</li>
@@ -45,7 +46,6 @@
             <button type="submit" class="btn btn-primary">Go Fish!</button>
         </form>
     </div>
-
 </div>
 
 
@@ -101,12 +101,11 @@
     <div id="loading">
         <img src="https://www.sustainableseafoodcoalition.org/wp-content/uploads/sustainable_fish_cycle.png"width="50" height="50" padding="5%" class="row spinner"><br>
     </div>
-    
     <div class="row csscenter" style="padding-left: 30px;">
         <div id="fishblock" style="display:none;">
             <div class="row">
                 {% for fish in fishes.items %}
-                <div class="card score{{fish.score}} m-2" style="width: 18rem;">
+                <div class="card score{{fish.score}} m-2" style="width: 18rem;" style="height: 15rem;">
                     <img src="{{ fish.img_url }}" class="card-img-top card-img" alt="{{fish.name}}">
                     <div class="card-body">
                         <h5 class="card-title"><a href="/species/{{ fish.fish_id }}">{{fish.name}}</a></h5>

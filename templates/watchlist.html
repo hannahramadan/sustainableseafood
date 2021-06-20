@@ -6,10 +6,10 @@
 
 
 <div
-    class="p-5 text-center bg-image"
+    class="p-3 text-center bg-image"
     style="
     background: linear-gradient(to top, #034078, #1282A2);
-    height: 175px;
+    height: 115px;
     "
     >
 <div class="mask">
@@ -25,15 +25,31 @@
 
 <div class="container">
     <div class="row"style="padding-right: 100px; padding-left:100px; padding-top:50px" >
-        <div class="col-8">
-            <h4 >Your Watchlist</h4>
+        <div class=col-4>
+            <h4>Text Your Watchlist</h4>
+            <div class="card">
+                <div class="card-body">
+                  <form method="POST">
+                      <input type="hidden" name="email" value = "{{user.email}}" >
+                      <input type="text" name="phone_number" pattern="\d{10}" placeholder="Your Number" oninvalid="alert('Please enter a valid 10 digit Number.')" required> <br><br>
+                      <button id="text_list" class="signUpText btn btn-primary" formaction="/text_fish">Send</button>
+                  </form>
+                  <br>
+                  <div id="textsuccess" class="alert alert-success hideform" role="alert">
+                    Your seafood has been sent!
+                  </div>
+                </div>
+            </div>
+        </div><br><br>
+        <br><br>    
+        <h4 style="padding-top: 20px;">Your Watchlist</h4>
             <!-- <div class="row"> -->
                 <!-- Create bootstrap container for fish -->
                 {% if favorites|length == 0 %}
                 <p>You're not watching any fish. Why not <a href="/discover">discover</a> some?</p>
                 {% else %}
                     {% for fish in favorites %}
-                    <div class="card score{{fish.score}}">
+                    <div class="card score{{fish.score}} m-2" style="width: 18rem;">
                         <img src="{{ fish.img_url }}" class="card-img-top card-img" alt="{{fish.name}}">
                         <div class="card-body">
                             <h5 class="card-title"><a href="/species/{{ fish.fish_id }}">{{fish.name}}</a></h5>
@@ -66,24 +82,7 @@
             <!-- </div> -->
             {% endif %} 
         </div>
-        <div class=col-4>
-            <h4>Text Your Watchlist</h4>
-            <div class="card">
-                <div class="card-body">
-                  <form method="POST">
-                      <input type="hidden" name="email" value = "{{user.email}}" >
-                      <input type="text" name="phone_number" pattern="\d{10}" placeholder="Your Number" oninvalid="alert('Please enter a valid 10 digit Number.')" required> <br><br>
-                      <button id="text_list" class="signUpText btn btn-primary" formaction="/text_fish">Send</button>
-                  </form>
-                  <br>
-                  <div id="textsuccess" class="alert alert-success hideform" role="alert">
-                    Your seafood has been sent!
-                  </div>
-                </div>
-              </div>
-        </div>
     </div>
-
 </div>
 
 <script>
