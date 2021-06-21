@@ -318,11 +318,13 @@ def text_fish():
                     )
     return redirect(request.referrer)
 
-
-
 @app.route("/species")
 def species_redirect():
     return redirect("/discover")
+
+@app.route("/aboutme")
+def aboutme():
+    return render_template ("/aboutme.html")
 
 ### Option using one function at a time ###
     # ratings = request.args.getlist('rating')
