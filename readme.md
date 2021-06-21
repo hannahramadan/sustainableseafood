@@ -5,7 +5,7 @@ As a vegetarian for over 8 years, I’ve gotten a lot of “you don’t even fis
 
 Sustainable Seafood is a webapp where users can search for, discover, and keep track of sustainable seafood. This app aims to help people make better food choices they make when it comes to eating sustainably.
 
-###[Watch a video demo here.](https://youtu.be/91JpZdBQ4m0)
+### [Watch a video demo here.](https://youtu.be/91JpZdBQ4m0)
 
 
 <img width="1440" alt="Screen Shot 2021-06-18 at 7 01 18 AM" src="https://user-images.githubusercontent.com/76922290/122572858-01e20100-d003-11eb-8e1b-1eaaa585b2d5.png">
